@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class NotificationBot extends TelegramLongPollingBot {
     private static String token = "6881196064:AAE7-P80dCgVvGdPhmcBEx5j52egElQj1wg";
     private static String botName = "BINOV_booking_notification_bot";
+    private static Long chatId = -1002107651145L;
 
     public NotificationBot() {
         super(token);
@@ -37,11 +38,22 @@ public class NotificationBot extends TelegramLongPollingBot {
         }
     }
 
+    public void sendMessage(String text){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(text);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException("can't send message" + e);
+        }
+    }
+
     private void handleStartCommand(Update update) {
         String text = update.getMessage().getText();
         System.out.println("text resive - " + text);
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(update.getMessage().getChatId());
+        sendMessage.setChatId(chatId);
         sendMessage.setText("Welcome to BINOV booking! bot is still in development");
         try {
             execute(sendMessage);
@@ -49,4 +61,5 @@ public class NotificationBot extends TelegramLongPollingBot {
             throw new RuntimeException(e);
         }
     }
+
 }
