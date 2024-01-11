@@ -1,6 +1,5 @@
 package com.application.bookingservice.bot;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -10,11 +9,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
 public class NotificationBot extends TelegramLongPollingBot {
-    @Value("${bot.token}")
-    private static String token;
-
-    @Value("${bot.name}")
-    private static String botName;
+    private static String token = "6881196064:AAE7-P80dCgVvGdPhmcBEx5j52egElQj1wg";
+    private static String botName = "BINOV_booking_notification_bot";
 
     public NotificationBot() {
         super(token);
