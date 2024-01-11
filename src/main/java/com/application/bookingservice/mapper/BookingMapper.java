@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class)
 public interface BookingMapper {
-    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "customerId", source = "customer.id")
     @Mapping(target = "accommodationId", source = "accommodation.id")
     BookingResponseDto toDto(Booking booking);
 

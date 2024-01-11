@@ -9,5 +9,5 @@ public class PaymentResponseDto {
     private Long id;
     private Status status;
     private Long bookingId;
-    BigDecimal total;
+    private BigDecimal total;
 }
