@@ -7,17 +7,19 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 @Component
 public class NotificationBot extends TelegramLongPollingBot {
-    private static String token = "6881196064:AAE7-P80dCgVvGdPhmcBEx5j52egElQj1wg";
-    private static String botName = "BINOV_booking_notification_bot";
-    private static Long chatId = -1002107651145L;
+    private static final Long CHAT_ID = -1002107651145L;
+    private static String token;
+    private static String botName;
 
-    public NotificationBot() {
+    public NotificationBot(
+            @Value("${bot.token}") String token,
+            @Value("${bot.name}") String botName
+    ) {
         super(token);
+        this.token = token;
+        this.botName = botName;
     }
 
     @Override
@@ -32,20 +34,19 @@ public class NotificationBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        sendLogMessage("працюй!");
         try {
             if (update.getMessage() != null) {
                 handleStartCommand(update);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("can't send message to user", e);
         }
     }
 
-    public void sendLogMessage(String text){
+    public void sendLogMessage(String text) {
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText( text);
+        sendMessage.setChatId(CHAT_ID);
+        sendMessage.setText(text);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -57,8 +58,8 @@ public class NotificationBot extends TelegramLongPollingBot {
         String text = update.getMessage().getText();
         System.out.println("text resive - " + text);
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText("Welcome to BINOV booking! bot is still in development");
+        sendMessage.setChatId(update.getMessage().getChatId());
+        sendMessage.setText("Hello, I am a bot for logging in BINOV booking");
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
