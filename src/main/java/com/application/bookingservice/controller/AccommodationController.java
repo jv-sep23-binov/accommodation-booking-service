@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccommodationController {
     private AccommodationService accommodationService;
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     @Operation(summary = "Save new accommodation.",
@@ -36,6 +38,7 @@ public class AccommodationController {
         return accommodationService.save(accommodationRequestDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @GetMapping
     @Operation(summary = "Get all accommodations.",
             description = "Provides a list of available accommodations.")
@@ -43,6 +46,7 @@ public class AccommodationController {
         return accommodationService.getAll(pageable);
     }
 
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get accommodation by id.",
             description = "Retrieves detailed information about a specific accommodation.")
@@ -50,6 +54,7 @@ public class AccommodationController {
         return accommodationService.findById(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{id}")
     @Operation(summary = "Update accommodation.",
             description = "Allows updates to accommodation details.")
@@ -58,6 +63,7 @@ public class AccommodationController {
         return accommodationService.updateById(id, accommodationRequestDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete accommodation.",
             description = "Enables the removal of accommodations.")
