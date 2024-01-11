@@ -2,6 +2,7 @@ package com.application.bookingservice.controller;
 
 import com.application.bookingservice.service.AuthenticationService;
 import com.application.bookingservice.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,12 +17,12 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/registration")
-    public Object register(@RequestBody Object request) {
+    public Object register(@RequestBody @Valid Object request) {
         return userService.register(request);
     }
 
     @PostMapping("/login")
-    public Object login(@RequestBody Object request) {
+    public Object login(@RequestBody @Valid Object request) {
         return authenticationService.authenticate(request);
     }
 }
