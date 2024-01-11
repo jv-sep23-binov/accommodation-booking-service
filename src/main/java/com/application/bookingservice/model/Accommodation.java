@@ -35,9 +35,13 @@ public class Accommodation {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Address address;
+    @Column(nullable = false)
     private String size;
+    @Column(nullable = false)
     private String amenities;
+    @Column(nullable = false)
     private BigDecimal price;
+    @Column(nullable = false)
     private Integer availableUnits;
     @Column(nullable = false)
     private boolean isDeleted = false;
