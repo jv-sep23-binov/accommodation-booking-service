@@ -1,6 +1,6 @@
 package com.application.bookingservice.controller;
 
-import com.application.bookingservice.service.CustomerService;
+import com.application.bookingservice.service.customer.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

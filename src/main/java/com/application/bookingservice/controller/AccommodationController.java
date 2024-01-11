@@ -1,6 +1,6 @@
 package com.application.bookingservice.controller;
 
-import com.application.bookingservice.service.AccommodationService;
+import com.application.bookingservice.service.accommodation.AccommodationService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

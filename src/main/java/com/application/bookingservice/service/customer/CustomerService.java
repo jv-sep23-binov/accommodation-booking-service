@@ -1,4 +1,4 @@
-package com.application.bookingservice.service;
+package com.application.bookingservice.service.customer;
 
 public interface CustomerService {
     Object updateRole(Long id, Object updateRequestDto);

@@ -1,4 +1,4 @@
-package com.application.bookingservice.service;
+package com.application.bookingservice.service.accommodation;
 
 import java.util.List;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.application.bookingservice.service;
+package com.application.bookingservice.service.customer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
