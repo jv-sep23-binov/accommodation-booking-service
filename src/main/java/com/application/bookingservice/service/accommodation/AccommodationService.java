@@ -1,16 +1,19 @@
 package com.application.bookingservice.service.accommodation;
 
 import java.util.List;
+
+import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
+import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
 import org.springframework.data.domain.Pageable;
 
 public interface AccommodationService {
-    Object save(Object accommodationRequestDto);
+    AccommodationResponseDto save(AccommodationRequestDto accommodationRequestDto);
 
-    List<Object> getAll(Pageable pageable);
+    List<AccommodationResponseDto> getAll(Pageable pageable);
 
-    Object findById(Long id);
+    AccommodationResponseDto findById(Long id);
 
-    Object updateById(Long id, Object updateAccommodationRequestDto);
+    AccommodationResponseDto updateById(Long id, AccommodationRequestDto accommodationRequestDto);
 
     void deleteById(Long id);
 }

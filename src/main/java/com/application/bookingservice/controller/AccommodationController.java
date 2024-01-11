@@ -1,5 +1,7 @@
 package com.application.bookingservice.controller;
 
+import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
+import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
 import com.application.bookingservice.service.accommodation.AccommodationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,29 +32,29 @@ public class AccommodationController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @Operation(summary = "Save new accommodation.",
             description = "Permits the addition of new accommodations.")
-    public Object save(@RequestBody @Valid Object accommodationRequestDto) {
+    public AccommodationResponseDto save(@RequestBody @Valid AccommodationRequestDto accommodationRequestDto) {
         return accommodationService.save(accommodationRequestDto);
     }
 
     @GetMapping
     @Operation(summary = "Get all accommodations.",
             description = "Provides a list of available accommodations.")
-    public List<Object> getAll(Pageable pageable) {
+    public List<AccommodationResponseDto> getAll(Pageable pageable) {
         return accommodationService.getAll(pageable);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get accommodation by id.",
             description = "Retrieves detailed information about a specific accommodation.")
-    public Object findById(@PathVariable Long id) {
+    public AccommodationResponseDto findById(@PathVariable Long id) {
         return accommodationService.findById(id);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update accommodation.",
             description = "Allows updates to accommodation details.")
-    public Object updateById(@PathVariable Long id,
-                             @RequestBody @Valid Object accommodationRequestDto) {
+    public AccommodationResponseDto updateById(@PathVariable Long id,
+                             @RequestBody @Valid AccommodationRequestDto accommodationRequestDto) {
         return accommodationService.updateById(id, accommodationRequestDto);
     }
 
