@@ -1,4 +1,4 @@
-package com.application.bookingservice.config;
+package com.application.bookingservice.security;
 
 import com.application.bookingservice.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
