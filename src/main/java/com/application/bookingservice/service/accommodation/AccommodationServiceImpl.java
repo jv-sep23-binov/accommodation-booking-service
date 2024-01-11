@@ -1,9 +1,8 @@
 package com.application.bookingservice.service.accommodation;
 
-import java.util.List;
-
 import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,8 @@ public class AccommodationServiceImpl implements AccommodationService {
     }
 
     @Override
-    public AccommodationResponseDto updateById(Long id, AccommodationRequestDto accommodationRequestDto) {
+    public AccommodationResponseDto updateById(Long id,
+                                               AccommodationRequestDto accommodationRequestDto) {
         return null;
     }
 

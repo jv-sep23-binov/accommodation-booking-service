@@ -32,7 +32,6 @@ public class CustomerController {
         return customerService.updateRole(id, updateCustomerRoleRequestDto);
     }
 
-
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @GetMapping("/me")
     @Operation(summary = "Get customer.",
@@ -46,7 +45,8 @@ public class CustomerController {
     @PutMapping("/me")
     @Operation(summary = "Update profile information.",
             description = "Allows customers to update their profile information.")
-    public Object updateProfileInfo(@RequestBody @Valid Object customerRequestDto, Authentication authentication) {
+    public Object updateProfileInfo(@RequestBody @Valid Object customerRequestDto,
+                                    Authentication authentication) {
         Customer customer = (Customer) authentication.getPrincipal();
         return customerService.updateById(customer.getId(), customerRequestDto);
     }

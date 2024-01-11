@@ -34,7 +34,8 @@ public class AccommodationController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @Operation(summary = "Save new accommodation.",
             description = "Permits the addition of new accommodations.")
-    public AccommodationResponseDto save(@RequestBody @Valid AccommodationRequestDto accommodationRequestDto) {
+    public AccommodationResponseDto save(
+            @RequestBody @Valid AccommodationRequestDto accommodationRequestDto) {
         return accommodationService.save(accommodationRequestDto);
     }
 

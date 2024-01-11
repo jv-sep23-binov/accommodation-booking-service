@@ -1,10 +1,9 @@
 package com.application.bookingservice.service.booking;
 
-import java.util.List;
-
 import com.application.bookingservice.dto.booking.BookingRequestDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
 import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
+import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 public interface BookingService {
@@ -18,5 +17,5 @@ public interface BookingService {
 
     void deleteById(Long id);
 
-    List<BookingResponseDto> findByUserIdAndStatus(Long userId, Object status, Pageable pageable);
+    List<BookingResponseDto> findByUserIdAndStatus(Long userId, String status, Pageable pageable);
 }

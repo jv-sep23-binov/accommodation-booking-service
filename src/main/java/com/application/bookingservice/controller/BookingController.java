@@ -38,7 +38,8 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new booking.",
             description = "Permits the creation of new accommodation bookings.")
-    public BookingResponseDto create(@RequestBody @Valid BookingRequestDto requestBookingDto, Authentication authentication) {
+    public BookingResponseDto create(@RequestBody @Valid BookingRequestDto requestBookingDto,
+                                     Authentication authentication) {
         Customer customer = (Customer) authentication.getPrincipal();
         return bookingService.save(customer.getId(), requestBookingDto);
     }
@@ -64,8 +65,9 @@ public class BookingController {
     @PutMapping("{id}")
     @Operation(summary = "Update booking by id.",
             description = "Allows customers to update their booking details.")
-    public BookingResponseDto update(@PathVariable Long id, @RequestBody @Valid BookingUpdateRequestDto bookingUpdateRequestDto) {
-        return bookingService.updateById(id, bookingUpdateRequestDto);
+    public BookingResponseDto update(@PathVariable Long id,
+                                     @RequestBody @Valid BookingUpdateRequestDto requestDto) {
+        return bookingService.updateById(id, requestDto);
     }
 
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
@@ -83,7 +85,7 @@ public class BookingController {
             description = "Retrieves bookings based on customer ID and their status.")
     public List<BookingResponseDto> getByUserAndStatus(
             @RequestParam Long userId,
-            @RequestParam Object status,
+            @RequestParam String status,
             Pageable pageable) {
         return bookingService.findByUserIdAndStatus(userId, status, pageable);
     }

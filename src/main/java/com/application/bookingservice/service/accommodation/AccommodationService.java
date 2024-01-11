@@ -1,9 +1,8 @@
 package com.application.bookingservice.service.accommodation;
 
-import java.util.List;
-
 import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
+import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 public interface AccommodationService {
