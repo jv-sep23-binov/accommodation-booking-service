@@ -1,9 +1,13 @@
 package com.application.bookingservice.service.bot;
 
+import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
+import com.application.bookingservice.dto.booking.BookingRequestDto;
+import com.application.bookingservice.dto.payment.PaymentRequestDto;
+
 public interface NotificationService {
-    Boolean bookingsMessage(Object o);
+    Boolean bookingsMessage(BookingRequestDto bookingRequestDto);
 
-    Boolean accommodationsMessage(Object o);
+    Boolean accommodationsMessage(AccommodationRequestDto accommodationRequestDto);
 
-    Boolean paymentMessage(Object o);
+    Boolean paymentMessage(PaymentRequestDto paymentRequestDto);
 }

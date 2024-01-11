@@ -10,12 +10,14 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 @Component
 public class BotRegister {
     private final NotificationBot notificationBot;
-    public BotRegister(NotificationBot notificationBot){
-        this.notificationBot=notificationBot;
+
+    public BotRegister(NotificationBot notificationBot) {
+        this.notificationBot = notificationBot;
     }
+
     @PostConstruct
     public void init() throws TelegramApiException {
-        TelegramBotsApi  telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
         telegramBotsApi.registerBot(notificationBot);
     }
 }
