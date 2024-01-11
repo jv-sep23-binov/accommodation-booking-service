@@ -1,4 +1,8 @@
 package com.application.bookingservice.dto.customer;
 
-public record CustomerLoginResponseDto(String token) {
+import lombok.Data;
+
+@Data
+public class CustomerLoginResponseDto {
+    private String token;
 }
