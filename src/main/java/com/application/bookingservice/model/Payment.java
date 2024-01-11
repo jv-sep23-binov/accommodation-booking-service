@@ -31,7 +31,7 @@ public class Payment {
     private String sessionUrl;
     @Column(name = "session_id")
     private String sessionId;
-    @Column(name = "amount")
+    @Column(name = "total")
     private BigDecimal total;
 
     public enum Status {
