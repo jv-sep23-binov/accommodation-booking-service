@@ -4,7 +4,7 @@ databaseChangeLog:
       author: BINOV_team
       changes:
         - createTable:
-            tableName: books
+            tableName: accommodations
             columns:
               - column:
                   name: id
