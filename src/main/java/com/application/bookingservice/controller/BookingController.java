@@ -1,5 +1,8 @@
 package com.application.bookingservice.controller;
 
+import com.application.bookingservice.dto.booking.BookingRequestDto;
+import com.application.bookingservice.dto.booking.BookingResponseDto;
+import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
 import com.application.bookingservice.service.booking.BookingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +34,7 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new booking.",
             description = "Permits the creation of new accommodation bookings.")
-    public Object create(@RequestBody @Valid Object requestBookingDto) {
+    public BookingResponseDto create(@RequestBody @Valid BookingRequestDto requestBookingDto) {
         //Customer customer = (Customer) authentication.getPrincipal();
         Long customerId = 1L;
         return bookingService.save(customerId, requestBookingDto);
@@ -40,7 +43,7 @@ public class BookingController {
     @GetMapping("/my")
     @Operation(summary = "Get all customer bookings",
             description = "Retrieves customer bookings.")
-    public List<Object> getAll(Pageable pageable) {
+    public List<BookingResponseDto> getAll(Pageable pageable) {
         //Customer customer = (Customer) authentication.getPrincipal();
         Long customerId = 1L;
         return bookingService.getAll(customerId, pageable);
@@ -49,15 +52,15 @@ public class BookingController {
     @GetMapping("/{id}")
     @Operation(summary = "Get booking by id.",
             description = "Provides information about a specific booking.")
-    public Object findById(@PathVariable Long id) {
+    public BookingResponseDto findById(@PathVariable Long id) {
         return bookingService.findById(id);
     }
 
     @PutMapping("{id}")
     @Operation(summary = "Update booking by id.",
             description = "Allows customers to update their booking details.")
-    public Object update(@PathVariable Long id, @RequestBody @Valid Object bookingRequestDto) {
-        return bookingService.updateById(id, bookingRequestDto);
+    public BookingResponseDto update(@PathVariable Long id, @RequestBody @Valid BookingUpdateRequestDto bookingUpdateRequestDto) {
+        return bookingService.updateById(id, bookingUpdateRequestDto);
     }
 
     @DeleteMapping("/{id}")
@@ -71,7 +74,7 @@ public class BookingController {
     @GetMapping
     @Operation(summary = "Get bookings by customer and status.",
             description = "Retrieves bookings based on customer ID and their status.")
-    public List<Object> getByUserAndStatus(
+    public List<BookingResponseDto> getByUserAndStatus(
             @RequestParam Long userId,
             @RequestParam Object status,
             Pageable pageable) {
