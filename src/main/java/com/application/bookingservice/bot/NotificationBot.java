@@ -1,5 +1,6 @@
 package com.application.bookingservice.bot;
 
+import com.application.bookingservice.exception.TelegramMessageException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -10,8 +11,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class NotificationBot extends TelegramLongPollingBot {
     private static final Long CHAT_ID = -1002107651145L;
-    private static String token;
-    private static String botName;
+    private final String token;
+    private final String botName;
 
     public NotificationBot(
             @Value("${bot.token}") String token,
@@ -39,7 +40,7 @@ public class NotificationBot extends TelegramLongPollingBot {
                 handleStartCommand(update);
             }
         } catch (Exception e) {
-            throw new RuntimeException("can't send message to user", e);
+            throw new TelegramMessageException("can't handle start command", e);
         }
     }
 
@@ -50,7 +51,7 @@ public class NotificationBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            throw new RuntimeException("can't send message" + e);
+            throw new TelegramMessageException("can't send logs to chat text:" + text, e);
         }
     }
 
@@ -63,7 +64,8 @@ public class NotificationBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            throw new TelegramMessageException("can't send message to user chatId: "
+                    + update.getMessage().getChatId(), e);
         }
     }
 
