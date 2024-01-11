@@ -35,4 +35,19 @@ public class CustomerServiceImpl implements CustomerService {
         savedCustomer.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         return customerMapper.toDto(customerRepository.save(savedCustomer));
     }
+
+    @Override
+    public Object updateRole(Long id, Object updateRequestDto) {
+        return null;
+    }
+
+    @Override
+    public Object getById(Long customerId) {
+        return null;
+    }
+
+    @Override
+    public Object updateById(Long customerId, Object customerRequestDto) {
+        return null;
+    }
 }

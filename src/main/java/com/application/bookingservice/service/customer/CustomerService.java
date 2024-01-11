@@ -5,4 +5,10 @@ import com.application.bookingservice.dto.customer.CustomerRegistrationResponseD
 
 public interface CustomerService {
     CustomerRegistrationResponseDto register(CustomerRegistrationRequestDto requestDto);
+
+    Object updateRole(Long id, Object updateRequestDto);
+
+    Object getById(Long customerId);
+
+    Object updateById(Long customerId, Object customerRequestDto);
 }
