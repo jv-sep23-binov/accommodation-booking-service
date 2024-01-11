@@ -2,13 +2,9 @@ package com.application.bookingservice.dto.booking;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.time.LocalDate;
 
-public class BookingRequestDto {
-    @NotNull
-    @Positive
-    private Long accommodationId;
+public class BookingUpdateRequestDto {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate checkIn;
