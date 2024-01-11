@@ -3,6 +3,7 @@ package com.application.bookingservice.controller;
 import com.application.bookingservice.dto.booking.BookingRequestDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
 import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
+import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.service.booking.BookingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +12,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,19 +36,17 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new booking.",
             description = "Permits the creation of new accommodation bookings.")
-    public BookingResponseDto create(@RequestBody @Valid BookingRequestDto requestBookingDto) {
-        //Customer customer = (Customer) authentication.getPrincipal();
-        Long customerId = 1L;
-        return bookingService.save(customerId, requestBookingDto);
+    public BookingResponseDto create(@RequestBody @Valid BookingRequestDto requestBookingDto, Authentication authentication) {
+        Customer customer = (Customer) authentication.getPrincipal();
+        return bookingService.save(customer.getId(), requestBookingDto);
     }
 
     @GetMapping("/my")
     @Operation(summary = "Get all customer bookings",
             description = "Retrieves customer bookings.")
-    public List<BookingResponseDto> getAll(Pageable pageable) {
-        //Customer customer = (Customer) authentication.getPrincipal();
-        Long customerId = 1L;
-        return bookingService.getAll(customerId, pageable);
+    public List<BookingResponseDto> getAll(Pageable pageable, Authentication authentication) {
+        Customer customer = (Customer) authentication.getPrincipal();
+        return bookingService.getAll(customer.getId(), pageable);
     }
 
     @GetMapping("/{id}")
