@@ -32,7 +32,7 @@ public class Payment {
     @Column(name = "session_id")
     private String sessionId;
     @Column(name = "amount")
-    private BigDecimal amount;
+    private BigDecimal total;
 
     public enum Status {
         PENDING,
