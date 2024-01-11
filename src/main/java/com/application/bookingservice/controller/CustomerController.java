@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
     private CustomerService customerService;
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{id}/role")
     @Operation(summary = "Update roles.",
             description = "Enables customers to update their roles, providing role-based access.")
@@ -30,6 +32,8 @@ public class CustomerController {
         return customerService.updateRole(id, updateCustomerRoleRequestDto);
     }
 
+
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @GetMapping("/me")
     @Operation(summary = "Get customer.",
             description = "Retrieves the profile information for the currently logged-in customer.")
@@ -38,6 +42,7 @@ public class CustomerController {
         return customerService.getById(customer.getId());
     }
 
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PutMapping("/me")
     @Operation(summary = "Update profile information.",
             description = "Allows customers to update their profile information.")
