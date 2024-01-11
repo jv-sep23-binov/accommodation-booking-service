@@ -34,11 +34,11 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodation_id", nullable = false)
     private Accommodation accommodation;
-    /*@ToString.Exclude // will be solved after Bohdan's PR
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer;*/
+    private Customer customer;
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(nullable = false)
     private Status status;
