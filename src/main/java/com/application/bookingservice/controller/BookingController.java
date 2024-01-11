@@ -12,6 +12,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookingController {
     private BookingService bookingService;
 
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new booking.",
@@ -41,6 +43,7 @@ public class BookingController {
         return bookingService.save(customer.getId(), requestBookingDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @GetMapping("/my")
     @Operation(summary = "Get all customer bookings",
             description = "Retrieves customer bookings.")
@@ -49,6 +52,7 @@ public class BookingController {
         return bookingService.getAll(customer.getId(), pageable);
     }
 
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get booking by id.",
             description = "Provides information about a specific booking.")
@@ -56,6 +60,7 @@ public class BookingController {
         return bookingService.findById(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PutMapping("{id}")
     @Operation(summary = "Update booking by id.",
             description = "Allows customers to update their booking details.")
@@ -63,6 +68,7 @@ public class BookingController {
         return bookingService.updateById(id, bookingUpdateRequestDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete booking by id.",
             description = "Enables the cancellation of bookings.")
@@ -71,6 +77,7 @@ public class BookingController {
         bookingService.deleteById(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @GetMapping
     @Operation(summary = "Get bookings by customer and status.",
             description = "Retrieves bookings based on customer ID and their status.")
