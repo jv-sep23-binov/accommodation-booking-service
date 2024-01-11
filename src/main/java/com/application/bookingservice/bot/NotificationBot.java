@@ -7,6 +7,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class NotificationBot extends TelegramLongPollingBot {
     private static String token = "6881196064:AAE7-P80dCgVvGdPhmcBEx5j52egElQj1wg";
@@ -29,6 +32,7 @@ public class NotificationBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        sendLogMessage("працюй!");
         try {
             if (update.getMessage() != null) {
                 handleStartCommand(update);
@@ -38,10 +42,10 @@ public class NotificationBot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMessage(String text){
+    public void sendLogMessage(String text){
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        sendMessage.setText(text);
+        sendMessage.setText( text);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
