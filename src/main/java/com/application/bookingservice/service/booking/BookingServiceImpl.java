@@ -1,5 +1,8 @@
 package com.application.bookingservice.service.booking;
 
+import com.application.bookingservice.dto.booking.BookingRequestDto;
+import com.application.bookingservice.dto.booking.BookingResponseDto;
+import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -9,22 +12,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
     @Override
-    public Object save(Long customerId, Object requestBookingDto) {
+    public BookingResponseDto save(Long customerId, BookingRequestDto requestBookingDto) {
         return null;
     }
 
     @Override
-    public List<Object> getAll(Long customerId, Pageable pageable) {
+    public List<BookingResponseDto> getAll(Long customerId, Pageable pageable) {
         return null;
     }
 
     @Override
-    public Object findById(Long id) {
+    public BookingResponseDto findById(Long id) {
         return null;
     }
 
     @Override
-    public Object updateById(Long id, Object bookingRequestDto) {
+    public BookingResponseDto updateById(Long id, BookingUpdateRequestDto bookingUpdateRequestDto) {
         return null;
     }
 
@@ -34,7 +37,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Object> findByUserIdAndStatus(Long userId, Object status, Pageable pageable) {
+    public List<BookingResponseDto> findByCustomerIdAndStatus(
+            Long userId,
+            String status,
+            Pageable pageable) {
         return null;
     }
 }
