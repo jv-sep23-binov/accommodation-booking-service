@@ -17,5 +17,7 @@ public interface BookingService {
 
     void deleteById(Long id);
 
-    List<BookingResponseDto> findByCustomerIdAndStatus(Long userId, String status, Pageable pageable);
+    List<BookingResponseDto> findByCustomerIdAndStatus(Long userId,
+                                                       String status,
+                                                       Pageable pageable);
 }
