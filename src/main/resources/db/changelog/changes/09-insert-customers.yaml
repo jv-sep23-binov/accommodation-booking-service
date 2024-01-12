@@ -21,9 +21,6 @@ databaseChangeLog:
               - column:
                   name: password
                   value: 12345678
-              - column:
-                  name: is_deleted
-                  value: false
         - insert:
             tableName: customers
             columns:
@@ -42,9 +39,6 @@ databaseChangeLog:
               - column:
                   name: password
                   value: 123456789
-              - column:
-                  name: is_deleted
-                  value: false
         - insert:
             tableName: customers
             columns:
@@ -63,6 +57,3 @@ databaseChangeLog:
               - column:
                   name: password
                   value: 1234567890
-              - column:
-                  name: is_deleted
-                  value: false
