@@ -7,7 +7,7 @@ databaseChangeLog:
             tableName: customers_roles
             columns:
               - column:
-                  name: customers_id
+                  name: customer_id
                   type: bigint
                   constraints:
                     foreignKeyName: fk_customers_roles_customer

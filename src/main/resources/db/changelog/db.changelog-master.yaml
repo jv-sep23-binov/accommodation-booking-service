@@ -17,3 +17,5 @@ databaseChangeLog:
       file: db/changelog/changes/08-insert-roles.yaml
   - include:
       file: db/changelog/changes/09-insert-customers.yaml
+  - include:
+      file: db/changelog/changes/10-insert-demo-customers-roles.yaml
