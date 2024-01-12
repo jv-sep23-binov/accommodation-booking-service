@@ -21,7 +21,7 @@ import org.hibernate.type.SqlTypes;
 @Entity
 @Data
 @Table(name = "bookings")
-@SQLDelete(sql = "UPDATE accommodations SET is_deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE bookings SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
 public class Booking {
     @Id
