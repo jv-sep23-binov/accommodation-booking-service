@@ -9,6 +9,7 @@ import com.application.bookingservice.mapper.AccommodationMapper;
 import com.application.bookingservice.model.Accommodation;
 import com.application.bookingservice.model.Address;
 import com.application.bookingservice.repository.accommodation.AccommodationRepository;
+import com.application.bookingservice.repository.address.AddressRepository;
 import com.application.bookingservice.service.address.AddressService;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -23,10 +24,21 @@ public class AccommodationServiceImpl implements AccommodationService {
     private final AccommodationRepository accommodationRepository;
     private final AccommodationMapper accommodationMapper;
     private final AddressService addressService;
+    private final AddressRepository addressRepository;
 
     @Override
+    @Transactional
     public AccommodationResponseDto save(AccommodationRequestDto accommodationRequestDto) {
-        return null;
+        Address address = accommodationRequestDto.getAddress();
+        Accommodation accommodation = new Accommodation()
+                .setType(accommodationRequestDto.getType())
+                .setAddress(addressRepository.save(address))
+                .setSize(accommodationRequestDto.getSize())
+                .setAmenities(accommodationRequestDto.getAmenities())
+                .setPrice(accommodationRequestDto.getPrice())
+                .setAvailableUnits(accommodationRequestDto.getAvailableUnits());
+
+        return accommodationMapper.toDto(accommodationRepository.save(accommodation));
     }
 
     @Override
