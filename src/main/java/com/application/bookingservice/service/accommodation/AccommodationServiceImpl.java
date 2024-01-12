@@ -2,6 +2,10 @@ package com.application.bookingservice.service.accommodation;
 
 import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
+import com.application.bookingservice.exception.EntityNotFoundException;
+import com.application.bookingservice.mapper.AccommodationMapper;
+import com.application.bookingservice.model.Accommodation;
+import com.application.bookingservice.repository.accommodation.AccommodationRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +14,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AccommodationServiceImpl implements AccommodationService {
+    private final AccommodationRepository accommodationRepository;
+    private final AccommodationMapper accommodationMapper;
+
     @Override
     public AccommodationResponseDto save(AccommodationRequestDto accommodationRequestDto) {
         return null;
@@ -22,7 +29,10 @@ public class AccommodationServiceImpl implements AccommodationService {
 
     @Override
     public AccommodationResponseDto findById(Long id) {
-        return null;
+        Accommodation accommodation = accommodationRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Can't find accommodation with id: " + id));
+        return accommodationMapper.toDto(accommodation);
     }
 
     @Override

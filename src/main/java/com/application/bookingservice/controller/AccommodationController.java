@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Accommodation management.",
         description = "Endpoints for managing accommodations.")
 public class AccommodationController {
-    private AccommodationService accommodationService;
+    private final AccommodationService accommodationService;
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping
