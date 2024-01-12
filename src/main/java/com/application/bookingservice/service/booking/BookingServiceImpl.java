@@ -37,7 +37,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponseDto> findByUserIdAndStatus(
+    public List<BookingResponseDto> findByCustomerIdAndStatus(
             Long userId,
             String status,
             Pageable pageable) {

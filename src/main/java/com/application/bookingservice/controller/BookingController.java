@@ -83,10 +83,10 @@ public class BookingController {
     @GetMapping
     @Operation(summary = "Get bookings by customer and status.",
             description = "Retrieves bookings based on customer ID and their status.")
-    public List<BookingResponseDto> getByUserAndStatus(
+    public List<BookingResponseDto> getByCustomerAndStatus(
             @RequestParam Long userId,
             @RequestParam String status,
             Pageable pageable) {
-        return bookingService.findByUserIdAndStatus(userId, status, pageable);
+        return bookingService.findByCustomerIdAndStatus(userId, status, pageable);
     }
 }
