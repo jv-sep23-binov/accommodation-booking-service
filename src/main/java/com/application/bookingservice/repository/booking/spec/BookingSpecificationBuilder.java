@@ -1,6 +1,6 @@
 package com.application.bookingservice.repository.booking.spec;
 
-import com.application.bookingservice.dto.booking.BookingSearchParameters;
+import com.application.bookingservice.dto.booking.BookingSearchParametersDto;
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.repository.SpecificationBuilder;
 import com.application.bookingservice.repository.SpecificationProviderManager;
@@ -14,7 +14,7 @@ public class BookingSpecificationBuilder implements SpecificationBuilder<Booking
     private final SpecificationProviderManager<Booking> specificationProviderManager;
 
     @Override
-    public Specification<Booking> build(BookingSearchParameters searchParameters) {
+    public Specification<Booking> build(BookingSearchParametersDto searchParameters) {
         Specification<Booking> spec = Specification.where(null);
 
         if (searchParameters.customerIds() != null && searchParameters.customerIds().length > 0) {
