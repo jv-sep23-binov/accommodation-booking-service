@@ -3,10 +3,13 @@ package com.application.bookingservice.service.accommodation;
 import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
 import com.application.bookingservice.dto.accommodation.AccommodationUpdateRequestDto;
+import com.application.bookingservice.dto.address.AddressRequestDto;
 import com.application.bookingservice.exception.EntityNotFoundException;
 import com.application.bookingservice.mapper.AccommodationMapper;
 import com.application.bookingservice.model.Accommodation;
+import com.application.bookingservice.model.Address;
 import com.application.bookingservice.repository.accommodation.AccommodationRepository;
+import com.application.bookingservice.service.address.AddressService;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ public class AccommodationServiceImpl implements AccommodationService {
     private static final String EXCEPTION_MSG_CANNOT_FIND = "Can't find accommodation with id: ";
     private final AccommodationRepository accommodationRepository;
     private final AccommodationMapper accommodationMapper;
+    private final AddressService addressService;
 
     @Override
     public AccommodationResponseDto save(AccommodationRequestDto accommodationRequestDto) {
@@ -43,8 +47,8 @@ public class AccommodationServiceImpl implements AccommodationService {
 
     @Override
     @Transactional
-    public AccommodationResponseDto updateById(Long id,
-                                               AccommodationUpdateRequestDto requestDto) {
+    public AccommodationResponseDto updateDetailsById(Long id,
+                                                      AccommodationUpdateRequestDto requestDto) {
         Accommodation accommodation = accommodationRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(EXCEPTION_MSG_CANNOT_FIND + id))
                 .setType(requestDto.getType())
@@ -58,5 +62,16 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Override
     public void deleteById(Long id) {
         accommodationRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public AccommodationResponseDto updateAddressById(Long id, AddressRequestDto requestDto) {
+        Accommodation accommodation = accommodationRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(EXCEPTION_MSG_CANNOT_FIND + id));
+        Long addressId = accommodation.getAddress().getId();
+        Address address = addressService.updateById(addressId, requestDto);
+        accommodation.setAddress(address);
+        return accommodationMapper.toDto(accommodationRepository.save(accommodation));
     }
 }

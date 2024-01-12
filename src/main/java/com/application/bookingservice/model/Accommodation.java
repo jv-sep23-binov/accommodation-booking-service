@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.JdbcTypeCode;

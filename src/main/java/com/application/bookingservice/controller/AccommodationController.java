@@ -3,7 +3,9 @@ package com.application.bookingservice.controller;
 import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
 import com.application.bookingservice.dto.accommodation.AccommodationUpdateRequestDto;
+import com.application.bookingservice.dto.address.AddressRequestDto;
 import com.application.bookingservice.service.accommodation.AccommodationService;
+import com.application.bookingservice.service.address.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
         description = "Endpoints for managing accommodations.")
 public class AccommodationController {
     private final AccommodationService accommodationService;
+    private final AddressService addressService;
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping
@@ -60,10 +63,20 @@ public class AccommodationController {
     @PutMapping("/{id}")
     @Operation(summary = "Update accommodation.",
             description = "Allows updates to accommodation details.")
-    public AccommodationResponseDto updateById(@PathVariable Long id,
-                                               @RequestBody @Valid
+    public AccommodationResponseDto updateDetailsById(@PathVariable Long id,
+                                                      @RequestBody @Valid
                                                AccommodationUpdateRequestDto requestDto) {
-        return accommodationService.updateById(id, requestDto);
+        return accommodationService.updateDetailsById(id, requestDto);
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PutMapping("/{id}/address")
+    @Operation(summary = "Update accommodation address.",
+            description = "Allows updates to accommodation address.")
+    public AccommodationResponseDto updateAddressById(@PathVariable Long id,
+                                                      @RequestBody @Valid
+                                               AddressRequestDto requestDto) {
+        return accommodationService.updateAddressById(id, requestDto);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
