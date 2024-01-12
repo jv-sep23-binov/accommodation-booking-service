@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-customers-table
+      id: create-payments-table
       author: BINOV_team
       changes:
         - createTable:
-            tableName: customers
+            tableName: payments
             columns:
               - column:
                   name: id
@@ -12,30 +12,30 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
-                  name: email
+                  name: status
                   type: varchar(255)
                   constraints:
-                    nullable: false
-                    unique: true
+                    nullable: true
               - column:
-                  name: first_name
+                  name: booking_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_payments_booking_id
+                    references: bookings(id)
+              - column:
+                  name: session_url
                   type: varchar(255)
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
-                  name: last_name
+                  name: session_id
                   type: varchar(255)
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
-                  name: password
-                  type: varchar(255)
+                  name: total
+                  type: decimal(18,2)
                   constraints:
-                    nullable: false
-              - column:
-                  name: is_deleted
-                  type: boolean
-                  constraints:
-                    nullable: false
+                    nullable: true

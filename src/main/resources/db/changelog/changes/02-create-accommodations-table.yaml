@@ -4,7 +4,7 @@ databaseChangeLog:
       author: BINOV_team
       changes:
         - createTable:
-            tableName: books
+            tableName: accommodations
             columns:
               - column:
                   name: id
@@ -12,13 +12,11 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
-                  name: roleName
+                  name: type
                   type: varchar(255)
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: address_id
                   type: bigint
@@ -38,7 +36,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: price
-                  type: bigint
+                  type: decimal(18,2)
                   constraints:
                     nullable: false
               - column:
@@ -49,5 +47,6 @@ databaseChangeLog:
               - column:
                   name: is_deleted
                   type: boolean
+                  defaultValueBoolean: false
                   constraints:
                     nullable: false
