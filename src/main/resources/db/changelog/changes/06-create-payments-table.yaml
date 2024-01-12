@@ -36,6 +36,6 @@ databaseChangeLog:
                     nullable: true
               - column:
                   name: amount
-                  type: decimal
+                  type: decimal(18,2)
                   constraints:
                     nullable: true
