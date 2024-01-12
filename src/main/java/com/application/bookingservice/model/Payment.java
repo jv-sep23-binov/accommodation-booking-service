@@ -39,8 +39,8 @@ public class Payment {
     private BigDecimal total;
 
     public enum Status {
-        PENDING,
-        PAID,
-        REJECTED
+        PROCESSING,
+        SUCCEED,
+        FAILED
     }
 }

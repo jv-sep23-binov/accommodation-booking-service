@@ -1,6 +1,7 @@
 package com.application.bookingservice.mapper;
 
 import com.application.bookingservice.config.MapperConfig;
+import com.application.bookingservice.dto.payment.PaymentCreateResponseDto;
 import com.application.bookingservice.dto.payment.PaymentRequestDto;
 import com.application.bookingservice.dto.payment.PaymentResponseDto;
 import com.application.bookingservice.model.Payment;
