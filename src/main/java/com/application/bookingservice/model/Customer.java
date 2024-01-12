@@ -43,7 +43,7 @@ public class Customer implements UserDetails {
     @EqualsAndHashCode.Exclude
     @JoinTable(
             name = "customers_roles",
-            joinColumns = @JoinColumn(name = "customers_id"),
+            joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();

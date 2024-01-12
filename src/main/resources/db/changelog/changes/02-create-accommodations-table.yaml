@@ -13,11 +13,10 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: roleName
+                  name: type
                   type: varchar(255)
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: address_id
                   type: bigint
@@ -37,7 +36,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: price
-                  type: bigint
+                  type: decimal(18,2)
                   constraints:
                     nullable: false
               - column:

@@ -20,7 +20,7 @@ databaseChangeLog:
                   value: Doe
               - column:
                   name: password
-                  value: 12345678
+                  value: $2a$10$r/arl7yWDuflIkm20qtZoO3MM1mBcRNIWY6AaPiQvYDi45D5SYwJm
         - insert:
             tableName: customers
             columns:
@@ -38,7 +38,7 @@ databaseChangeLog:
                   value: Smith
               - column:
                   name: password
-                  value: 123456789
+                  value: $2a$10$kDrPZmdPbL5AOLSep5H7JunDkxdWOemB6SbfS.LVKaEraUxbTbm.q
         - insert:
             tableName: customers
             columns:
@@ -56,4 +56,4 @@ databaseChangeLog:
                   value: Smith
               - column:
                   name: password
-                  value: 1234567890
+                  value: $2a$10$LwC6rsweDzqq9ut2fmdI1.D6o5rItpWEqH5vJ.95cZiEwC4ckxhW6

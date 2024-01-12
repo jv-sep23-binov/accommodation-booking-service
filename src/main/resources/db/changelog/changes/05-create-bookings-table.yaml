@@ -13,12 +13,12 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: checkIn
+                  name: check_in
                   type: DATE
                   constraints:
                     nullable: true
               - column:
-                  name: checkOut
+                  name: check_out
                   type: DATE
                   constraints:
                     nullable: true
