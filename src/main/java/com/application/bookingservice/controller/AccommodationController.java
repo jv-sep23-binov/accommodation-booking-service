@@ -2,6 +2,7 @@ package com.application.bookingservice.controller;
 
 import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
+import com.application.bookingservice.dto.accommodation.AccommodationUpdateRequestDto;
 import com.application.bookingservice.service.accommodation.AccommodationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,8 +61,9 @@ public class AccommodationController {
     @Operation(summary = "Update accommodation.",
             description = "Allows updates to accommodation details.")
     public AccommodationResponseDto updateById(@PathVariable Long id,
-                             @RequestBody @Valid AccommodationRequestDto accommodationRequestDto) {
-        return accommodationService.updateById(id, accommodationRequestDto);
+                                               @RequestBody @Valid
+                                               AccommodationUpdateRequestDto requestDto) {
+        return accommodationService.updateById(id, requestDto);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
