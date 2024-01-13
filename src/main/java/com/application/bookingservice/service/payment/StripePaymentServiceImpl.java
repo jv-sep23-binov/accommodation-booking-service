@@ -46,7 +46,13 @@ public class StripePaymentServiceImpl implements StripePaymentService {
                         .setMode(SessionCreateParams.Mode.PAYMENT)
                         .build();
         Session session = Session.create(params);
-//        savePayment(requestDto, session);
+        /*
+        * after adding booking and accommodation flow will be added
+        * saving payment to DB.
+        * This happens because of no data in DB to find
+        * something in MySQL through the foreign key
+        * savePayment(requestDto, session);
+        */
         return new PaymentCreateResponseDto(session.getUrl());
     }
 
@@ -67,7 +73,15 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     }
 
     private void savePayment(PaymentRequestDto requestDto, Session session) {
-        Booking booking = bookingRepository.getReferenceById(requestDto.getBookingId());
+        /*
+        * booking initialization will be changed to:
+        * booking = bookingRepository.getReferenceById(requestDto.getBookingId());
+        * after merging PR with booking flow.
+        * This happens because we need to create new booking
+        * and save it to DB before making payment for it
+        */
+        Booking booking = new Booking();
+        booking.setId(1L);
         Payment payment = new Payment();
         payment.setStatus(Payment.Status.PROCESSING);
         payment.setBooking(booking);
