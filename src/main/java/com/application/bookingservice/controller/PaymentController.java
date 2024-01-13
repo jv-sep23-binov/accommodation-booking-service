@@ -20,7 +20,7 @@ public class PaymentController {
     private final StripePaymentService stripePaymentService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public PaymentCreateResponseDto checkout(@RequestBody @Valid PaymentRequestDto requestDto) {
         try {
             return stripePaymentService.createPaymentSession(requestDto);
