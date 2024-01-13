@@ -1,5 +1,7 @@
 package com.application.bookingservice.service.accommodation;
 
+import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
+import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -9,22 +11,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AccommodationServiceImpl implements AccommodationService {
     @Override
-    public Object save(Object accommodationRequestDto) {
+    public AccommodationResponseDto save(AccommodationRequestDto accommodationRequestDto) {
         return null;
     }
 
     @Override
-    public List<Object> getAll(Pageable pageable) {
+    public List<AccommodationResponseDto> getAll(Pageable pageable) {
         return null;
     }
 
     @Override
-    public Object findById(Long id) {
+    public AccommodationResponseDto findById(Long id) {
         return null;
     }
 
     @Override
-    public Object updateById(Long id, Object updateAccommodationRequestDto) {
+    public AccommodationResponseDto updateById(Long id,
+                                               AccommodationRequestDto accommodationRequestDto) {
         return null;
     }
 

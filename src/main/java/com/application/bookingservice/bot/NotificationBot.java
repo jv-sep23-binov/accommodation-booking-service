@@ -11,7 +11,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class NotificationBot extends TelegramLongPollingBot {
     private static final Long CHAT_ID = -1002107651145L;
-    private final String token;
+    private static final String START_COMMAND = "/start";
+    private static final String CANT_HANDLE_START_MESSAGE = "Can't handle start command";
+    private static final String CANT_LOG_MESSAGE = "Can't send logs to chat text: %s";
+    private static final String CANT_SEND_MESSAGE = "Can't send message to user chatId: %d";
+    private static final String START_MESSAGE = "Hello, I am a bot for logging in BINOV booking";
     private final String botName;
 
     public NotificationBot(
@@ -19,7 +23,6 @@ public class NotificationBot extends TelegramLongPollingBot {
             @Value("${bot.name}") String botName
     ) {
         super(token);
-        this.token = token;
         this.botName = botName;
     }
 
@@ -29,18 +32,13 @@ public class NotificationBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public String getBotToken() {
-        return token;
-    }
-
-    @Override
     public void onUpdateReceived(Update update) {
         try {
-            if (update.getMessage() != null) {
+            if (update.getMessage().getText().equals(START_COMMAND)) {
                 handleStartCommand(update);
             }
         } catch (Exception e) {
-            throw new TelegramMessageException("can't handle start command", e);
+            throw new TelegramMessageException(CANT_HANDLE_START_MESSAGE, e);
         }
     }
 
@@ -51,21 +49,19 @@ public class NotificationBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            throw new TelegramMessageException("can't send logs to chat text:" + text, e);
+            throw new TelegramMessageException(String.format(CANT_LOG_MESSAGE, text), e);
         }
     }
 
     private void handleStartCommand(Update update) {
-        String text = update.getMessage().getText();
-        System.out.println("text resive - " + text);
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(update.getMessage().getChatId());
-        sendMessage.setText("Hello, I am a bot for logging in BINOV booking");
+        Long chatId = update.getMessage().getChatId();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(START_MESSAGE);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            throw new TelegramMessageException("can't send message to user chatId: "
-                    + update.getMessage().getChatId(), e);
+            throw new TelegramMessageException(String.format(CANT_SEND_MESSAGE, chatId), e);
         }
     }
 

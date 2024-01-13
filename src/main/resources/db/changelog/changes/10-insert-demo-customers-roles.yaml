@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-demo-customers-roles
+      author: BINOV_team
+      changes:
+        - insert:
+            tableName: customers_roles
+            columns:
+              - column:
+                  name: customer_id
+                  value: 1
+              - column:
+                  name: role_id
+                  value: 1
+        - insert:
+            tableName: customers_roles
+            columns:
+              - column:
+                  name: customer_id
+                  value: 2
+              - column:
+                  name: role_id
+                  value: 2
+        - insert:
+            tableName: customers_roles
+            columns:
+              - column:
+                  name: customer_id
+                  value: 3
+              - column:
+                  name: role_id
+                  value: 2
