@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    @Query(value = "SELECT b FROM Booking b INNER JOIN b.accommodation"
-            + " INNER JOIN b.customer WHERE b.customer.id = :customerID")
+    @Query(value = "SELECT b FROM Booking b JOIN FETCH b.accommodation"
+            + " JOIN FETCH b.customer WHERE b.customer.id = :customerID")
     List<Booking> findAllByCustomerId(Long customerID, Pageable pageable);
 
-    @Query(value = "SELECT b FROM Booking b INNER JOIN b.accommodation "
-            + "INNER JOIN b.customer "
+    @Query(value = "SELECT b FROM Booking b JOIN FETCH b.accommodation "
+            + "JOIN FETCH b.customer "
             + "WHERE b.customer.id = :customerID AND b.status = :status")
     List<Booking> findAllByCustomerIdAndStatus(
             Long customerID,
