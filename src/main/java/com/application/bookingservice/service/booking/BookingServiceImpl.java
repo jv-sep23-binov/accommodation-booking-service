@@ -7,6 +7,7 @@ import com.application.bookingservice.dto.booking.BookingResponseDto;
 import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
 import com.application.bookingservice.dto.booking.BookingUpdateStatusRequestDto;
 import com.application.bookingservice.exception.EntityNotFoundException;
+import com.application.bookingservice.exception.UnauthorizedActionException;
 import com.application.bookingservice.mapper.BookingMapper;
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.repository.booking.BookingRepository;
@@ -19,6 +20,17 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
+    private static final String CUSTOMER_NOT_FOUND_MESSAGE = "Can't find customer by id: %d";
+    private static final String BOOKING_NOT_FOUND_MESSAGE = "Can't find booking by id: %d";
+    private static final String UNAUTHORIZED_FIND_MESSAGE =
+            "Customers can't watch others booking "
+            + "not related to them, customer id: %d, booking customer id: %d";
+    private static final String UNAUTHORIZED_UPDATE_MESSAGE =
+            "Customers can't update others booking "
+            + "not related to them, customer id: %d, booking customer id: %d";
+    private static final String UNAUTHORIZED_DELETE_MESSAGE =
+            "Customers can't delete others booking"
+            + " not related to them, customer id: %d, booking customer id: %d";
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
@@ -29,40 +41,65 @@ public class BookingServiceImpl implements BookingService {
         booking.setStatus(PENDING);
         booking.setCustomer(customerRepository.findById(customerId)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("can't find customer by id :"
-                                + customerId)
+                        () -> new EntityNotFoundException(
+                                String.format(CUSTOMER_NOT_FOUND_MESSAGE, customerId))
                 ));
         return bookingMapper.toDto(bookingRepository.save(booking));
     }
 
     @Override
     public List<BookingResponseDto> getAll(Long customerId, Pageable pageable) {
-        return bookingRepository.findAllByCustomerId(customerId, pageable).stream()
-                .map(bookingMapper::toDto)
-                .toList();
-    }
-
-    @Override
-    public BookingResponseDto findById(Long id) {
-        return bookingMapper.toDto(bookingRepository.findById(id)
-                .orElseThrow(
-                        () -> new EntityNotFoundException("Can't find booking by id : " + id))
-                );
-    }
-
-    @Override
-    public BookingResponseDto updateById(Long id, BookingUpdateRequestDto bookingUpdateRequestDto) {
-        Booking booking = bookingRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Can't find booking by id : " + id)
+        return bookingMapper.toDtos(
+                bookingRepository.findAllByCustomerId(customerId, pageable)
         );
-        booking.setCheckIn(bookingUpdateRequestDto.getCheckIn());
-        booking.setCheckOut(bookingUpdateRequestDto.getCheckOut());
-        return bookingMapper.toDto(bookingRepository.save(booking));
     }
 
     @Override
-    public void deleteById(Long id) {
-        bookingRepository.deleteById(id);
+    public BookingResponseDto findById(Long customerId, Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                String.format(BOOKING_NOT_FOUND_MESSAGE, id))
+                );
+        Long bookingCustomerId = booking.getCustomer().getId();
+        if (bookingCustomerId.equals(customerId)) {
+            return bookingMapper.toDto(booking);
+        }
+        throw new UnauthorizedActionException(
+                String.format(UNAUTHORIZED_FIND_MESSAGE, customerId, bookingCustomerId)
+        );
+    }
+
+    @Override
+    public BookingResponseDto updateById(
+            Long customerId,
+            Long id,
+            BookingUpdateRequestDto requestDto) {
+        Booking booking = bookingRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(String.format(BOOKING_NOT_FOUND_MESSAGE, id))
+        );
+        Long bookingCustomerId = booking.getCustomer().getId();
+        if (bookingCustomerId.equals(customerId)) {
+            booking.setCheckIn(requestDto.getCheckIn());
+            booking.setCheckOut(requestDto.getCheckOut());
+            return bookingMapper.toDto(bookingRepository.save(booking));
+        }
+        throw new UnauthorizedActionException(
+                String.format(UNAUTHORIZED_UPDATE_MESSAGE, customerId, bookingCustomerId)
+        );
+    }
+
+    @Override
+    public void deleteById(Long customerId, Long id) {
+        Long bookingCustomerId = bookingRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(String.format(BOOKING_NOT_FOUND_MESSAGE, id))
+        ).getCustomer().getId();
+        if (customerId.equals(bookingCustomerId)) {
+            bookingRepository.deleteById(id);
+        }
+        throw new UnauthorizedActionException(
+                String.format(UNAUTHORIZED_DELETE_MESSAGE, customerId, bookingCustomerId)
+        );
     }
 
     @Override
@@ -91,7 +128,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingResponseDto updateStatus(Long id, BookingUpdateStatusRequestDto requestDto) {
         Booking booking = bookingRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("can't find booking by id :" + id)
+                () -> new EntityNotFoundException(String.format(BOOKING_NOT_FOUND_MESSAGE, id))
         );
         booking.setStatus(requestDto.getStatus());
         return bookingMapper.toDto(bookingRepository.save(booking));
