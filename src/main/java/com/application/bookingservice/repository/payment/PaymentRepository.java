@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
-    @Query("SELECT p FROM Payment p LEFT JOIN FETCH Booking b WHERE p.sessionId = :sessionId")
+    @Query("SELECT p FROM Payment p LEFT JOIN FETCH p.booking b WHERE p.sessionId = :sessionId")
     Optional<Payment> findBySessionId(String sessionId);
 
     @Query("SELECT p FROM Payment p JOIN FETCH p.booking b "

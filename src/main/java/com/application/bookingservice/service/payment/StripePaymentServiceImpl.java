@@ -23,9 +23,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class StripePaymentServiceImpl implements StripePaymentService {
+    private static final String REQUESTED_PARAM = "?session-id={SESSION_ID}";
     private final PaymentRepository paymentRepository;
     private final BookingRepository bookingRepository;
-
+    @Value("${stripe.success.url}")
+    private String successUrl;
+    @Value("${stripe.cancel.url}")
+    private String cancelUrl;
     @Value("${stripe.secret.key}")
     private String secretKey;
 
@@ -37,7 +41,8 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     public PaymentCreateResponseDto createPaymentSession(PaymentRequestDto requestDto) {
         SessionCreateParams params =
                 SessionCreateParams.builder()
-                        .setSuccessUrl("https://example.com/success")
+                        .setSuccessUrl(String.format(successUrl, REQUESTED_PARAM))
+                        .setCancelUrl(String.format(cancelUrl, REQUESTED_PARAM))
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
                                         .setPrice(getPrice(requestDto.getTotal()))
@@ -62,7 +67,9 @@ public class StripePaymentServiceImpl implements StripePaymentService {
                         .setCurrency("usd")
                         .setUnitAmount(total.longValue() * 100L)
                         .setProductData(
-                                PriceCreateParams.ProductData.builder().setName("Gold Plan").build()
+                                PriceCreateParams.ProductData.builder()
+                                        .setName("Gold Plan")
+                                        .build()
                         )
                         .build();
         try {
