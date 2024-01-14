@@ -5,7 +5,6 @@ import com.application.bookingservice.dto.payment.PaymentRequestDto;
 import com.application.bookingservice.exception.PaymentFailedException;
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.model.Payment;
-import com.application.bookingservice.repository.booking.BookingRepository;
 import com.application.bookingservice.repository.payment.PaymentRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StripePaymentServiceImpl implements StripePaymentService {
     private final PaymentRepository paymentRepository;
-    private final BookingRepository bookingRepository;
 
     @Value("${stripe.secret.key}")
     private String secretKey;
