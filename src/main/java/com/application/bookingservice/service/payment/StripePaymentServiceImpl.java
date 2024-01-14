@@ -2,9 +2,11 @@ package com.application.bookingservice.service.payment;
 
 import com.application.bookingservice.dto.payment.PaymentCreateResponseDto;
 import com.application.bookingservice.dto.payment.PaymentRequestDto;
+import com.application.bookingservice.exception.EntityNotFoundException;
 import com.application.bookingservice.exception.PaymentFailedException;
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.model.Payment;
+import com.application.bookingservice.repository.booking.BookingRepository;
 import com.application.bookingservice.repository.payment.PaymentRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StripePaymentServiceImpl implements StripePaymentService {
     private final PaymentRepository paymentRepository;
+    private final BookingRepository bookingRepository;
 
     @Value("${stripe.secret.key}")
     private String secretKey;
@@ -49,13 +52,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         } catch (StripeException e) {
             throw new PaymentFailedException("Checkout failure!" + e);
         }
-        /*
-        * after adding booking and accommodation flow will be added
-        * saving payment to DB.
-        * This happens because of no data in DB to find
-        * something in MySQL through the foreign key
-        * savePayment(requestDto, session);
-        */
+        savePayment(requestDto, session);
         return new PaymentCreateResponseDto(session.getUrl());
     }
 
@@ -76,15 +73,11 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     }
 
     private void savePayment(PaymentRequestDto requestDto, Session session) {
-        /*
-        * booking initialization will be changed to:
-        * booking = bookingRepository.getReferenceById(requestDto.getBookingId());
-        * after merging PR with booking flow.
-        * This happens because we need to create new booking
-        * and save it to DB before making payment for it
-        */
-        Booking booking = new Booking();
-        booking.setId(1L);
+        Booking booking = bookingRepository.findById(requestDto.getBookingId())
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Can't find booking with id: "
+                                + requestDto.getBookingId())
+                );
         Payment payment = new Payment();
         payment.setStatus(Payment.Status.PROCESSING);
         payment.setBooking(booking);
