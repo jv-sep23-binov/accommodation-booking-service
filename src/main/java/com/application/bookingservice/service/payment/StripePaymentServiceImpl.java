@@ -46,18 +46,16 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     }
 
     public PaymentCreateResponseDto createPaymentSession(PaymentRequestDto requestDto) {
-        SessionCreateParams params =
-                SessionCreateParams.builder()
-                        .setSuccessUrl(String.format(successUrl, REQUESTED_PARAM))
-                        .setCancelUrl(String.format(cancelUrl, REQUESTED_PARAM))
-                        .addLineItem(
-                                SessionCreateParams.LineItem.builder()
-                                        .setPrice(getPrice(requestDto.getTotal()))
-                                        .setQuantity(DEFAULT_PRODUCTS_QUANTITY)
-                                        .build()
-                        )
-                        .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .build();
+        SessionCreateParams params = SessionCreateParams.builder()
+                .setSuccessUrl(String.format(successUrl, REQUESTED_PARAM))
+                .setCancelUrl(String.format(cancelUrl, REQUESTED_PARAM))
+                .addLineItem(SessionCreateParams.LineItem.builder()
+                        .setPrice(getPrice(requestDto.getTotal()))
+                        .setQuantity(DEFAULT_PRODUCTS_QUANTITY)
+                        .build()
+                )
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .build();
         Session session;
         try {
             session = Session.create(params);
@@ -69,16 +67,14 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     }
 
     private String getPrice(BigDecimal total) {
-        PriceCreateParams params =
-                PriceCreateParams.builder()
-                        .setCurrency(DEFAULT_CURRENCY_USD)
-                        .setUnitAmount(total.longValue() * PRICE_VALUE_IN_CENTS)
-                        .setProductData(
-                                PriceCreateParams.ProductData.builder()
-                                        .setName(DEFAULT_PRODUCT_TYPE)
-                                        .build()
-                        )
-                        .build();
+        PriceCreateParams params = PriceCreateParams.builder()
+                .setCurrency(DEFAULT_CURRENCY_USD)
+                .setUnitAmount(total.longValue() * PRICE_VALUE_IN_CENTS)
+                .setProductData(PriceCreateParams.ProductData.builder()
+                        .setName(DEFAULT_PRODUCT_TYPE)
+                        .build()
+                )
+                .build();
         try {
             return Price.create(params).getId();
         } catch (StripeException e) {
