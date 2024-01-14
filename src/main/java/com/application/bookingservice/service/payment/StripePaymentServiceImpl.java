@@ -2,6 +2,7 @@ package com.application.bookingservice.service.payment;
 
 import com.application.bookingservice.dto.payment.PaymentCreateResponseDto;
 import com.application.bookingservice.dto.payment.PaymentRequestDto;
+import com.application.bookingservice.exception.PaymentFailedException;
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.model.Payment;
 import com.application.bookingservice.repository.booking.BookingRepository;
@@ -32,8 +33,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         Stripe.apiKey = secretKey;
     }
 
-    public PaymentCreateResponseDto createPaymentSession(PaymentRequestDto requestDto)
-            throws StripeException {
+    public PaymentCreateResponseDto createPaymentSession(PaymentRequestDto requestDto) {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setSuccessUrl("https://example.com/success")
@@ -45,7 +45,12 @@ public class StripePaymentServiceImpl implements StripePaymentService {
                         )
                         .setMode(SessionCreateParams.Mode.PAYMENT)
                         .build();
-        Session session = Session.create(params);
+        Session session;
+        try {
+            session = Session.create(params);
+        } catch (StripeException e) {
+            throw new PaymentFailedException("Checkout failure!" + e);
+        }
         /*
         * after adding booking and accommodation flow will be added
         * saving payment to DB.
