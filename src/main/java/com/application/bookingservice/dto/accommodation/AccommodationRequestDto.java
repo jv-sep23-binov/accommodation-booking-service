@@ -3,24 +3,27 @@ package com.application.bookingservice.dto.accommodation;
 import com.application.bookingservice.model.Accommodation.Type;
 import com.application.bookingservice.model.Address;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class AccommodationRequestDto {
-    @NotBlank
+    @NotNull
     private Type type;
-    @NotBlank
+    @NotNull
     private Address address;
     @NotBlank
     private String size;
     @NotBlank
     private String amenities;
     @Positive
-    @NotBlank
+    @NotNull
     private BigDecimal price;
     @Positive
-    @NotBlank
+    @NotNull
     private Integer availableUnits;
 }
