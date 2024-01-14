@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    private static final String SESSION_NOT_FOUND_MESSAGE =
+    private static final String PAYMENT_NOT_FOUND_MESSAGE =
             "Can't find payment by session id: ";
     private final PaymentRepository paymentRepository;
     private final BookingRepository bookingRepository;
@@ -34,7 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public void succeed(String sessionId) {
         Payment payment = paymentRepository.findBySessionId(sessionId).orElseThrow(
-                () -> new EntityNotFoundException(SESSION_NOT_FOUND_MESSAGE + sessionId)
+                () -> new EntityNotFoundException(PAYMENT_NOT_FOUND_MESSAGE + sessionId)
         );
         payment.setStatus(Status.SUCCEED);
         paymentRepository.save(payment);
@@ -50,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public void cancel(String sessionId) {
         Payment payment = paymentRepository.findBySessionId(sessionId).orElseThrow(
-                () -> new EntityNotFoundException(SESSION_NOT_FOUND_MESSAGE + sessionId)
+                () -> new EntityNotFoundException(PAYMENT_NOT_FOUND_MESSAGE + sessionId)
         );
         payment.setStatus(Status.FAILED);
         paymentRepository.save(payment);
