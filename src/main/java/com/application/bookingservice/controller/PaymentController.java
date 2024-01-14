@@ -37,6 +37,8 @@ public class PaymentController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    @Operation(summary = "Checkout payment",
+            description = "Checkout payment for user's booking")
     public PaymentCreateResponseDto checkout(@RequestBody @Valid PaymentRequestDto requestDto) {
         return stripePaymentService.createPaymentSession(requestDto);
     }
