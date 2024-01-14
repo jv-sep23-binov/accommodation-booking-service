@@ -23,7 +23,14 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class StripePaymentServiceImpl implements StripePaymentService {
+    private static final String BOOKING_NOT_FOUND_MESSAGE =
+            "Can't find booking with id: ";
+    private static final String CHECKOUT_FAILURE_MESSAGE = "Checkout failure! ";
     private static final String REQUESTED_PARAM = "?session-id={SESSION_ID}";
+    private static final String DEFAULT_PRODUCT_TYPE = "Booking";
+    private static final String DEFAULT_CURRENCY_USD = "usd";
+    private static final Long DEFAULT_PRODUCTS_QUANTITY = 1L;
+    private static final Long PRICE_VALUE_IN_CENTS = 100L;
     private final PaymentRepository paymentRepository;
     private final BookingRepository bookingRepository;
     @Value("${stripe.success.url}")
@@ -46,7 +53,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
                                         .setPrice(getPrice(requestDto.getTotal()))
-                                        .setQuantity(1L)
+                                        .setQuantity(DEFAULT_PRODUCTS_QUANTITY)
                                         .build()
                         )
                         .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -55,7 +62,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         try {
             session = Session.create(params);
         } catch (StripeException e) {
-            throw new PaymentFailedException("Checkout failure!" + e);
+            throw new PaymentFailedException(CHECKOUT_FAILURE_MESSAGE + e);
         }
         savePayment(requestDto, session);
         return new PaymentCreateResponseDto(session.getUrl());
@@ -64,11 +71,11 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     private String getPrice(BigDecimal total) {
         PriceCreateParams params =
                 PriceCreateParams.builder()
-                        .setCurrency("usd")
-                        .setUnitAmount(total.longValue() * 100L)
+                        .setCurrency(DEFAULT_CURRENCY_USD)
+                        .setUnitAmount(total.longValue() * PRICE_VALUE_IN_CENTS)
                         .setProductData(
                                 PriceCreateParams.ProductData.builder()
-                                        .setName("Gold Plan")
+                                        .setName(DEFAULT_PRODUCT_TYPE)
                                         .build()
                         )
                         .build();
@@ -82,7 +89,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     private void savePayment(PaymentRequestDto requestDto, Session session) {
         Booking booking = bookingRepository.findById(requestDto.getBookingId())
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Can't find booking with id: "
+                        () -> new EntityNotFoundException(BOOKING_NOT_FOUND_MESSAGE
                                 + requestDto.getBookingId())
                 );
         Payment payment = new Payment();

@@ -46,7 +46,7 @@ public class PaymentController {
             description = "Redirection after successfully processing of payment")
     public String getSuccessfulResponse(@RequestParam("session-id") String sessionId) {
         paymentService.succeed(sessionId);
-        return "Paid successful! Session ID: " + sessionId;
+        return "Paid successfully! Session ID: " + sessionId;
     }
 
     @GetMapping("/cancel")
@@ -54,6 +54,6 @@ public class PaymentController {
             description = "Redirection after unsuccessfully processing of payment")
     public String getCancelResponse(@RequestParam("session-id") String sessionId) {
         paymentService.cancel(sessionId);
-        return "Paid canceled. Session ID: " + sessionId;
+        return "Payment canceled. Session ID: " + sessionId;
     }
 }
