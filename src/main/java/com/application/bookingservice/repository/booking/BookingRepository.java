@@ -15,4 +15,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = "SELECT b FROM Booking b JOIN FETCH b.accommodation"
             + " JOIN FETCH b.customer WHERE b.customer.id = :customerID")
     List<Booking> findAllByCustomerId(Long customerID, Pageable pageable);
+
+    @Query(value = "SELECT b FROM Booking b JOIN FETCH b.accommodation"
+            + " JOIN FETCH b.customer WHERE b.accommodation.id = :accommodationId")
+    List<Booking> findByAccommodationId(Long accommodationId);
 }
