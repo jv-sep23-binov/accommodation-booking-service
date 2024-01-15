@@ -151,7 +151,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Scheduled(cron = "@daily")
-    private void checkDate() {
+    private void checkBookingDate() {
         boolean expired = false;
         LocalDate nowDate = LocalDate.now();
         List<Booking> bookings = bookingRepository.findAll();
