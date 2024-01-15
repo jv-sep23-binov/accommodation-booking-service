@@ -4,6 +4,7 @@ import static com.application.bookingservice.model.Booking.Status.PENDING;
 
 import com.application.bookingservice.dto.booking.BookingRequestDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
+import com.application.bookingservice.dto.booking.BookingSearchParametersDto;
 import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
 import com.application.bookingservice.dto.booking.BookingUpdateStatusRequestDto;
 import com.application.bookingservice.exception.EntityNotFoundException;
@@ -11,10 +12,12 @@ import com.application.bookingservice.exception.UnauthorizedActionException;
 import com.application.bookingservice.mapper.BookingMapper;
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.repository.booking.BookingRepository;
+import com.application.bookingservice.repository.booking.spec.BookingSpecificationBuilder;
 import com.application.bookingservice.repository.customer.CustomerRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +36,7 @@ public class BookingServiceImpl implements BookingService {
             + " not related to them, customer id: %d, booking customer id: %d";
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
+    private final BookingSpecificationBuilder specificationBuilder;
     private final BookingMapper bookingMapper;
 
     @Override
@@ -103,24 +107,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponseDto> findByCustomerIdAndStatus(
-            Long userId,
-            String status,
-            Pageable pageable) {
-        Booking.Status bookingStatus = null;
-        for (Booking.Status currentStatus : Booking.Status.values()) {
-            if (currentStatus.name().equals(status)) {
-                bookingStatus = currentStatus;
-                break;
-            }
-        }
-        if (bookingStatus == null) {
-            throw new RuntimeException("not valid status : " + status);
-        }
-        return bookingRepository.findAllByCustomerIdAndStatus(
-                userId,
-                bookingStatus,
-                pageable).stream()
+    public List<BookingResponseDto> search(
+            BookingSearchParametersDto searchParameters
+    ) {
+        Specification<Booking> specification = specificationBuilder.build(searchParameters);
+        return bookingRepository.findAll(specification).stream()
                 .map(bookingMapper::toDto)
                 .toList();
     }

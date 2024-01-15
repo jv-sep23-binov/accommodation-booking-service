@@ -2,6 +2,7 @@ package com.application.bookingservice.controller;
 
 import com.application.bookingservice.dto.booking.BookingRequestDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
+import com.application.bookingservice.dto.booking.BookingSearchParametersDto;
 import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
 import com.application.bookingservice.dto.booking.BookingUpdateStatusRequestDto;
 import com.application.bookingservice.model.Customer;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -99,13 +99,12 @@ public class BookingController {
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @GetMapping
+    @GetMapping("/search")
     @Operation(summary = "Get bookings by customer and status.",
             description = "Retrieves bookings based on customer ID and their status.")
     public List<BookingResponseDto> getByCustomerAndStatus(
-            @RequestParam Long userId,
-            @RequestParam String status,
-            Pageable pageable) {
-        return bookingService.findByCustomerIdAndStatus(userId, status, pageable);
+            BookingSearchParametersDto searchParameters
+    ) {
+        return bookingService.search(searchParameters);
     }
 }

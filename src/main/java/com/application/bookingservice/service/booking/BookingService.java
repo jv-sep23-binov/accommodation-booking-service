@@ -2,6 +2,7 @@ package com.application.bookingservice.service.booking;
 
 import com.application.bookingservice.dto.booking.BookingRequestDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
+import com.application.bookingservice.dto.booking.BookingSearchParametersDto;
 import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
 import com.application.bookingservice.dto.booking.BookingUpdateStatusRequestDto;
 import java.util.List;
@@ -21,9 +22,7 @@ public interface BookingService {
 
     void deleteById(Long customerId, Long id);
 
-    List<BookingResponseDto> findByCustomerIdAndStatus(Long userId,
-                                                       String status,
-                                                       Pageable pageable);
+    List<BookingResponseDto> search(BookingSearchParametersDto searchParameters);
 
     BookingResponseDto updateStatus(Long id, BookingUpdateStatusRequestDto requestDto);
 }
