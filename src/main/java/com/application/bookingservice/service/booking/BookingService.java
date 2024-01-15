@@ -4,6 +4,7 @@ import com.application.bookingservice.dto.booking.BookingRequestDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
 import com.application.bookingservice.dto.booking.BookingSearchParametersDto;
 import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
+import com.application.bookingservice.dto.booking.BookingUpdateStatusRequestDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 
@@ -12,11 +13,16 @@ public interface BookingService {
 
     List<BookingResponseDto> getAll(Long customerId, Pageable pageable);
 
-    BookingResponseDto findById(Long id);
+    BookingResponseDto findById(Long customerId, Long id);
 
-    BookingResponseDto updateById(Long id, BookingUpdateRequestDto bookingUpdateRequestDto);
+    BookingResponseDto updateById(
+            Long customerId,
+            Long id,
+            BookingUpdateRequestDto bookingUpdateRequestDto);
 
-    void deleteById(Long id);
+    void deleteById(Long customerId, Long id);
 
     List<BookingResponseDto> search(BookingSearchParametersDto searchParameters);
+
+    BookingResponseDto updateStatus(Long id, BookingUpdateStatusRequestDto requestDto);
 }

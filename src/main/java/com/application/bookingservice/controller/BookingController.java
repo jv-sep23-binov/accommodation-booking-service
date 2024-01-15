@@ -4,6 +4,7 @@ import com.application.bookingservice.dto.booking.BookingRequestDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
 import com.application.bookingservice.dto.booking.BookingSearchParametersDto;
 import com.application.bookingservice.dto.booking.BookingUpdateRequestDto;
+import com.application.bookingservice.dto.booking.BookingUpdateStatusRequestDto;
 import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.service.booking.BookingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +34,17 @@ import org.springframework.web.bind.annotation.RestController;
         description = "Endpoints for managing bookings.")
 public class BookingController {
     private final BookingService bookingService;
+
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PatchMapping("/{id}/status")
+    @Operation(summary = "Update booking status.",
+            description = "Allows manager to change booking status.")
+    public BookingResponseDto updateStatus(
+            @PathVariable Long id,
+            @RequestBody @Valid BookingUpdateStatusRequestDto requestDto
+    ) {
+        return bookingService.updateStatus(id, requestDto);
+    }
 
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PostMapping
@@ -57,17 +70,22 @@ public class BookingController {
     @GetMapping("/{id}")
     @Operation(summary = "Get booking by id.",
             description = "Provides information about a specific booking.")
-    public BookingResponseDto findById(@PathVariable Long id) {
-        return bookingService.findById(id);
+    public BookingResponseDto findById(Authentication authentication,
+                                       @PathVariable Long id) {
+        Customer customer = (Customer) authentication.getPrincipal();
+        return bookingService.findById(customer.getId(), id);
     }
 
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PutMapping("{id}")
     @Operation(summary = "Update booking by id.",
             description = "Allows customers to update their booking details.")
-    public BookingResponseDto update(@PathVariable Long id,
-                                     @RequestBody @Valid BookingUpdateRequestDto requestDto) {
-        return bookingService.updateById(id, requestDto);
+    public BookingResponseDto update(Authentication authentication,
+                                     @PathVariable Long id,
+                                     @RequestBody @Valid BookingUpdateRequestDto requestDto
+    ) {
+        Customer customer = (Customer) authentication.getPrincipal();
+        return bookingService.updateById(customer.getId(), id, requestDto);
     }
 
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
@@ -75,8 +93,9 @@ public class BookingController {
     @Operation(summary = "Delete booking by id.",
             description = "Enables the cancellation of bookings.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable Long id) {
-        bookingService.deleteById(id);
+    public void deleteById(Authentication authentication, @PathVariable Long id) {
+        Customer customer = (Customer) authentication.getPrincipal();
+        bookingService.deleteById(customer.getId(), id);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
