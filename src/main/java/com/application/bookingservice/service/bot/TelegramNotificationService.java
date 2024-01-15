@@ -2,10 +2,15 @@ package com.application.bookingservice.service.bot;
 
 import com.application.bookingservice.bot.NotificationBot;
 import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
+import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
 import com.application.bookingservice.dto.booking.BookingRequestDto;
+import com.application.bookingservice.dto.booking.BookingResponseDto;
 import com.application.bookingservice.dto.payment.PaymentRequestDto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import com.application.bookingservice.model.Booking;
+import com.application.bookingservice.model.Payment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,55 +21,128 @@ public class TelegramNotificationService implements NotificationService {
     private final NotificationBot notificationBot;
 
     @Override
-    public Boolean bookingsMessage(BookingRequestDto bookingRequestDto) {
+    public Boolean bookingsCreatedMessage(BookingResponseDto responseDto) {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
         String formattedDateTime = now.format(formatter);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(formattedDateTime)
-                .append("new bookings was created with id: ")
-                .append(bookingRequestDto.getAccommodationId())
+                .append(" new bookings was created with accommodation id: ")
+                .append(responseDto.getAccommodationId())
+                .append(" Customer Id : ")
+                .append(responseDto.getCustomerId())
                 .append(" Сheck in data: ")
-                .append(bookingRequestDto.getCheckIn())
+                .append(responseDto.getCheckIn())
                 .append(" Сheck out data: ")
-                .append(bookingRequestDto.getCheckOut());
+                .append(responseDto.getCheckOut());
         notificationBot.sendLogMessage(stringBuilder.toString());
         return true;
     }
 
     @Override
-    public Boolean accommodationsMessage(AccommodationRequestDto accommodationRequestDto) {
+    public Boolean bookingCanceledMessage(Long id) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+        String formattedDateTime = now.format(formatter);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(formattedDateTime)
+                .append(" Booking ")
+                .append(id)
+                .append(" was canceled");
+        notificationBot.sendLogMessage(stringBuilder.toString());
+        return true;
+    }
+
+    @Override
+    public Boolean bookingStatusChangedMessage(BookingResponseDto responseDto) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+        String formattedDateTime = now.format(formatter);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(formattedDateTime)
+                        .append(" Booking status was changed to ")
+                        .append(responseDto.getStatus())
+                        .append(" booking id: ")
+                        .append(responseDto.getId());
+        notificationBot.sendLogMessage(stringBuilder.toString());
+        return true;
+    }
+
+    @Override
+    public Boolean accommodationCreatedMessage(AccommodationResponseDto responseDto) {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
         String formattedDateTime = now.format(formatter);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(formattedDateTime)
                 .append(" new Accommodation was created type: ")
-                .append(accommodationRequestDto.getType())
+                .append(responseDto.getType())
                 .append(" size : ")
-                .append(accommodationRequestDto.getSize())
+                .append(responseDto.getSize())
                 .append(" Amentites: ")
-                .append(accommodationRequestDto.getAmenities())
+                .append(responseDto.getAmenities())
                 .append(" Address: ")
-                .append(accommodationRequestDto.getAddress())
+                .append(responseDto.getAddress())
                 .append(" Price: ")
-                .append(accommodationRequestDto.getPrice());
+                .append(responseDto.getPrice());
         notificationBot.sendLogMessage(stringBuilder.toString());
         return true;
     }
 
     @Override
-    public Boolean paymentMessage(PaymentRequestDto paymentRequestDto) {
+    public Boolean accommodationUpdateMessage(AccommodationResponseDto responseDto) {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
         String formattedDateTime = now.format(formatter);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(formattedDateTime)
-                .append(" successful payments  booking id :")
-                .append(paymentRequestDto.getBookingId())
-                .append(" total : ")
-                .append(paymentRequestDto.getTotal());
-        notificationBot.sendLogMessage(formattedDateTime + "successful payments");
+                .append(" Accommodation ")
+                .append(responseDto.getId())
+                .append(" data was changed to")
+                .append(" type: ")
+                .append(responseDto.getType())
+                .append(" size : ")
+                .append(responseDto.getSize())
+                .append(" Amentites: ")
+                .append(responseDto.getAmenities())
+                .append(" Address: ")
+                .append(responseDto.getAddress())
+                .append(" Price: ")
+                .append(responseDto.getPrice());
+        notificationBot.sendLogMessage(stringBuilder.toString());
         return true;
     }
+
+    @Override
+    public Boolean accommodationUpdateAddressMessage(AccommodationResponseDto responseDto) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+        String formattedDateTime = now.format(formatter);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(formattedDateTime)
+                .append(" Accommodation ")
+                .append(responseDto.getId())
+                .append(" address was changed to")
+                .append(responseDto.getAddress());
+        notificationBot.sendLogMessage(stringBuilder.toString());
+        return true;
+    }
+
+    @Override
+    public Boolean paymentMessage(Payment payment) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+        String formattedDateTime = now.format(formatter);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(formattedDateTime)
+                .append(" Payment ")
+                .append(payment.getId())
+                .append(" was ")
+                .append(payment.getStatus())
+                .append(" total: ")
+                .append(payment.getTotal());
+        notificationBot.sendLogMessage(stringBuilder.toString());
+        return true;
+    }
+
 }
