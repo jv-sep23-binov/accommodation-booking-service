@@ -1,7 +1,7 @@
 package com.application.bookingservice.dto.accommodation;
 
+import com.application.bookingservice.dto.address.AddressResponseDto;
 import com.application.bookingservice.model.Accommodation.Type;
-import com.application.bookingservice.model.Address;
 import java.math.BigDecimal;
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
 public class AccommodationResponseDto {
     private Long id;
     private Type type;
-    private Address address;
+    private AddressResponseDto address;
     private String size;
     private String amenities;
     private BigDecimal price;
