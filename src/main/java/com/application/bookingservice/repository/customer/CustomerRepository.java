@@ -12,6 +12,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c JOIN FETCH c.roles r WHERE c.email = :email")
     Optional<Customer> findByEmail(String email);
 
-    @EntityGraph(attributePaths = "roles")
+    @Query("SELECT c FROM Customer c JOIN FETCH c.roles r WHERE c.id = :id")
     Optional<Customer> findById(Long id);
 }
