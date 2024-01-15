@@ -1,5 +1,8 @@
 package com.application.bookingservice.controller;
 
+import com.application.bookingservice.dto.customer.CustomerDto;
+import com.application.bookingservice.dto.customer.CustomerResponseDtoWithRoles;
+import com.application.bookingservice.dto.customer.CustomerUpdateRoleRequestDto;
 import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.service.customer.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,14 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Customer management.",
         description = "Endpoints for managing customers.")
 public class CustomerController {
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{id}/role")
     @Operation(summary = "Update roles.",
             description = "Enables customers to update their roles, providing role-based access.")
-    public Object updateRole(@PathVariable Long id,
-                             @RequestBody @Valid Object updateCustomerRoleRequestDto) {
+    public CustomerResponseDtoWithRoles updateRole(@PathVariable Long id,
+                                                   @RequestBody @Valid CustomerUpdateRoleRequestDto
+                                     updateCustomerRoleRequestDto) {
         return customerService.updateRole(id, updateCustomerRoleRequestDto);
     }
 
@@ -36,7 +40,7 @@ public class CustomerController {
     @GetMapping("/me")
     @Operation(summary = "Get customer.",
             description = "Retrieves the profile information for the currently logged-in customer.")
-    public Object getCustomer(Authentication authentication) {
+    public CustomerDto getCustomer(Authentication authentication) {
         Customer customer = (Customer) authentication.getPrincipal();
         return customerService.getById(customer.getId());
     }
@@ -45,9 +49,9 @@ public class CustomerController {
     @PutMapping("/me")
     @Operation(summary = "Update profile information.",
             description = "Allows customers to update their profile information.")
-    public Object updateProfileInfo(@RequestBody @Valid Object customerRequestDto,
-                                    Authentication authentication) {
+    public CustomerDto updateProfileInfo(@RequestBody @Valid CustomerDto customerDto,
+                                         Authentication authentication) {
         Customer customer = (Customer) authentication.getPrincipal();
-        return customerService.updateById(customer.getId(), customerRequestDto);
+        return customerService.updateById(customer.getId(), customerDto);
     }
 }
