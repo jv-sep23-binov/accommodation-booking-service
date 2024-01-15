@@ -39,7 +39,8 @@ public class AccommodationServiceImpl implements AccommodationService {
                 .setAmenities(accommodationRequestDto.getAmenities())
                 .setPrice(accommodationRequestDto.getPrice())
                 .setAvailableUnits(accommodationRequestDto.getAvailableUnits());
-        AccommodationResponseDto savedAccommodationdto = accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        AccommodationResponseDto savedAccommodationdto = accommodationMapper
+                .toDto(accommodationRepository.save(accommodation));
         notificationService.accommodationCreatedMessage(savedAccommodationdto);
         return savedAccommodationdto;
     }
@@ -71,7 +72,8 @@ public class AccommodationServiceImpl implements AccommodationService {
                 .setAmenities(requestDto.getAmenities())
                 .setPrice(requestDto.getPrice())
                 .setAvailableUnits(requestDto.getAvailableUnits());
-        AccommodationResponseDto updatedAccommodationDto = accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        AccommodationResponseDto updatedAccommodationDto = accommodationMapper
+                .toDto(accommodationRepository.save(accommodation));
         notificationService.accommodationUpdateMessage(updatedAccommodationDto);
         return updatedAccommodationDto;
     }
@@ -89,7 +91,8 @@ public class AccommodationServiceImpl implements AccommodationService {
         Long addressId = accommodation.getAddress().getId();
         Address address = addressService.updateById(addressId, requestDto);
         accommodation.setAddress(address);
-        AccommodationResponseDto updatedAccommodationDto = accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        AccommodationResponseDto updatedAccommodationDto = accommodationMapper
+                .toDto(accommodationRepository.save(accommodation));
         notificationService.accommodationUpdateAddressMessage(updatedAccommodationDto);
         return updatedAccommodationDto;
     }

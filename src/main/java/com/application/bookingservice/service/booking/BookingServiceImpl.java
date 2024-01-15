@@ -14,9 +14,8 @@ import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.repository.booking.BookingRepository;
 import com.application.bookingservice.repository.booking.spec.BookingSpecificationBuilder;
 import com.application.bookingservice.repository.customer.CustomerRepository;
-import java.util.List;
-
 import com.application.bookingservice.service.bot.NotificationService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -51,9 +50,9 @@ public class BookingServiceImpl implements BookingService {
                         () -> new EntityNotFoundException(
                                 String.format(CUSTOMER_NOT_FOUND_MESSAGE, customerId))
                 ));
-        BookingResponseDto SavedBookingDto = bookingMapper.toDto(bookingRepository.save(booking));
-        notificationService.bookingsCreatedMessage(SavedBookingDto);
-        return SavedBookingDto;
+        BookingResponseDto savedBookingDto = bookingMapper.toDto(bookingRepository.save(booking));
+        notificationService.bookingsCreatedMessage(savedBookingDto);
+        return savedBookingDto;
     }
 
     @Override

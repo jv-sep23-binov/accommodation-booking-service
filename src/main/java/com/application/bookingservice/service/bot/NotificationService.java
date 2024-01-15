@@ -1,9 +1,7 @@
 package com.application.bookingservice.service.bot;
 
-import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
-import com.application.bookingservice.dto.payment.PaymentRequestDto;
 import com.application.bookingservice.model.Payment;
 
 public interface NotificationService {

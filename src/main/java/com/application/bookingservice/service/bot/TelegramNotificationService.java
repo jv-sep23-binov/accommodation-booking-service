@@ -1,16 +1,11 @@
 package com.application.bookingservice.service.bot;
 
 import com.application.bookingservice.bot.NotificationBot;
-import com.application.bookingservice.dto.accommodation.AccommodationRequestDto;
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
-import com.application.bookingservice.dto.booking.BookingRequestDto;
 import com.application.bookingservice.dto.booking.BookingResponseDto;
-import com.application.bookingservice.dto.payment.PaymentRequestDto;
+import com.application.bookingservice.model.Payment;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import com.application.bookingservice.model.Booking;
-import com.application.bookingservice.model.Payment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
