@@ -1,7 +1,9 @@
 package com.application.bookingservice.controller;
 
-import com.application.bookingservice.dto.customer.CustomerDto;
+import com.application.bookingservice.dto.customer.CustomerResponseDto;
 import com.application.bookingservice.dto.customer.CustomerResponseDtoWithRoles;
+import com.application.bookingservice.dto.customer.CustomerUpdateRequestDto;
+import com.application.bookingservice.dto.customer.CustomerUpdateResponseDto;
 import com.application.bookingservice.dto.customer.CustomerUpdateRoleRequestDto;
 import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.service.customer.CustomerService;
@@ -40,7 +42,7 @@ public class CustomerController {
     @GetMapping("/me")
     @Operation(summary = "Get customer.",
             description = "Retrieves the profile information for the currently logged-in customer.")
-    public CustomerDto getCustomer(Authentication authentication) {
+    public CustomerResponseDto getCustomer(Authentication authentication) {
         Customer customer = (Customer) authentication.getPrincipal();
         return customerService.getById(customer.getId());
     }
@@ -49,9 +51,10 @@ public class CustomerController {
     @PutMapping("/me")
     @Operation(summary = "Update profile information.",
             description = "Allows customers to update their profile information.")
-    public CustomerDto updateProfileInfo(@RequestBody @Valid CustomerDto customerDto,
-                                         Authentication authentication) {
+    public CustomerUpdateResponseDto updateProfileInfo(
+            @RequestBody @Valid CustomerUpdateRequestDto customerUpdateRequestDto,
+                                                       Authentication authentication) {
         Customer customer = (Customer) authentication.getPrincipal();
-        return customerService.updateById(customer.getId(), customerDto);
+        return customerService.updateById(customer.getId(), customerUpdateRequestDto);
     }
 }
