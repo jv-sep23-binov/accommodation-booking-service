@@ -18,4 +18,6 @@ public interface NotificationService {
     Boolean accommodationUpdateAddressMessage(AccommodationResponseDto responseDto);
 
     Boolean paymentMessage(Payment payment);
+
+    Boolean bookingExpiredMessage(String text);
 }

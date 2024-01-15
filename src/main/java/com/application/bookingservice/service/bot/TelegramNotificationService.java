@@ -140,4 +140,17 @@ public class TelegramNotificationService implements NotificationService {
         return true;
     }
 
+    @Override
+    public Boolean bookingExpiredMessage(String text) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+        String formattedDateTime = now.format(formatter);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(formattedDateTime)
+                        .append(" ")
+                        .append(text);
+        notificationBot.sendLogMessage(stringBuilder.toString());
+        return true;
+    }
+
 }

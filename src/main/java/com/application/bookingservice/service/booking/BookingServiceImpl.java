@@ -27,6 +27,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
+    private static final String EXPIRED_MESSAGE = "Booking with id: %d was Expired";
+    private static final String NOTHING_EXPIRED_MESSAGE = "No expired bookings today!";
     private static final String CUSTOMER_NOT_FOUND_MESSAGE = "Can't find customer by id: %d";
     private static final String BOOKING_NOT_FOUND_MESSAGE = "Can't find booking by id: %d";
     private static final String UNAUTHORIZED_FIND_MESSAGE =
@@ -77,7 +79,8 @@ public class BookingServiceImpl implements BookingService {
                         () -> new EntityNotFoundException(
                                 String.format(CUSTOMER_NOT_FOUND_MESSAGE, customerId))
                 ));
-        BookingResponseDto savedBookingDto = bookingMapper.toDto(bookingRepository.save(booking));
+        BookingResponseDto savedBookingDto = bookingMapper
+                .toDto(bookingRepository.save(bookingToSave));
         notificationService.bookingsCreatedMessage(savedBookingDto);
         return savedBookingDto;
     }
@@ -171,11 +174,13 @@ public class BookingServiceImpl implements BookingService {
                 booking.setStatus(EXPIRED);
                 bookingRepository.save(booking);
                 expired = true;
-                //telegram notification
+                notificationService.bookingExpiredMessage(
+                        String.format(EXPIRED_MESSAGE, booking.getId())
+                );
             }
         }
         if (!expired) {
-            //telegram notification
+            notificationService.bookingExpiredMessage(NOTHING_EXPIRED_MESSAGE);
         }
     }
 }
