@@ -58,6 +58,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex);
     }
 
+    @ExceptionHandler(UnauthorizedActionException.class)
+    public ResponseEntity<Object> handleUnauthorizedActionException(Exception ex) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex);
+    }
+
     private ResponseEntity<Object> buildErrorResponse(HttpStatus status, Exception exception) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
