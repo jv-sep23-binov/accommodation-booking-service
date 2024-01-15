@@ -1,8 +1,10 @@
 package com.application.bookingservice.mapper;
 
 import com.application.bookingservice.config.MapperConfig;
+import com.application.bookingservice.dto.customer.CustomerDto;
 import com.application.bookingservice.dto.customer.CustomerRegistrationRequestDto;
 import com.application.bookingservice.dto.customer.CustomerRegistrationResponseDto;
+import com.application.bookingservice.dto.customer.CustomerResponseDtoWithRoles;
 import com.application.bookingservice.model.Customer;
 import org.mapstruct.Mapper;
 
@@ -11,4 +13,9 @@ public interface CustomerMapper {
     CustomerRegistrationResponseDto toDto(Customer customer);
 
     Customer toModel(CustomerRegistrationRequestDto requestDto);
+
+    CustomerDto toCustomerDto(Customer customer);
+
+    CustomerResponseDtoWithRoles toCustomerResponseDto(Customer customer);
+
 }
