@@ -15,6 +15,7 @@ import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.repository.booking.BookingRepository;
 import com.application.bookingservice.repository.booking.spec.BookingSpecificationBuilder;
 import com.application.bookingservice.repository.customer.CustomerRepository;
+import com.application.bookingservice.service.bot.NotificationService;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
+    private static final String EXPIRED_MESSAGE = "Booking with id: %d was Expired";
+    private static final String NOTHING_EXPIRED_MESSAGE = "No expired bookings today!";
     private static final String CUSTOMER_NOT_FOUND_MESSAGE = "Can't find customer by id: %d";
     private static final String BOOKING_NOT_FOUND_MESSAGE = "Can't find booking by id: %d";
     private static final String UNAUTHORIZED_FIND_MESSAGE =
@@ -44,6 +47,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final BookingSpecificationBuilder specificationBuilder;
     private final BookingMapper bookingMapper;
+    private final NotificationService notificationService;
 
     @Override
     public BookingResponseDto save(Long customerId, BookingRequestDto requestBookingDto) {
@@ -75,7 +79,10 @@ public class BookingServiceImpl implements BookingService {
                         () -> new EntityNotFoundException(
                                 String.format(CUSTOMER_NOT_FOUND_MESSAGE, customerId))
                 ));
-        return bookingMapper.toDto(bookingRepository.save(bookingToSave));
+        BookingResponseDto savedBookingDto = bookingMapper
+                .toDto(bookingRepository.save(bookingToSave));
+        notificationService.bookingsCreatedMessage(savedBookingDto);
+        return savedBookingDto;
     }
 
     @Override
@@ -127,10 +134,12 @@ public class BookingServiceImpl implements BookingService {
         ).getCustomer().getId();
         if (customerId.equals(bookingCustomerId)) {
             bookingRepository.deleteById(id);
+            notificationService.bookingCanceledMessage(id);
+        } else {
+            throw new UnauthorizedActionException(
+                    String.format(UNAUTHORIZED_DELETE_MESSAGE, customerId, bookingCustomerId)
+            );
         }
-        throw new UnauthorizedActionException(
-                String.format(UNAUTHORIZED_DELETE_MESSAGE, customerId, bookingCustomerId)
-        );
     }
 
     @Override
@@ -149,7 +158,9 @@ public class BookingServiceImpl implements BookingService {
                 () -> new EntityNotFoundException(String.format(BOOKING_NOT_FOUND_MESSAGE, id))
         );
         booking.setStatus(requestDto.getStatus());
-        return bookingMapper.toDto(bookingRepository.save(booking));
+        BookingResponseDto updatedBookingDto = bookingMapper.toDto(bookingRepository.save(booking));
+        notificationService.bookingStatusChangedMessage(updatedBookingDto);
+        return updatedBookingDto;
     }
 
     @Scheduled(cron = "@daily")
@@ -163,11 +174,13 @@ public class BookingServiceImpl implements BookingService {
                 booking.setStatus(EXPIRED);
                 bookingRepository.save(booking);
                 expired = true;
-                //telegram notification
+                notificationService.bookingExpiredMessage(
+                        String.format(EXPIRED_MESSAGE, booking.getId())
+                );
             }
         }
         if (!expired) {
-            //telegram notification
+            notificationService.bookingExpiredMessage(NOTHING_EXPIRED_MESSAGE);
         }
     }
 }
