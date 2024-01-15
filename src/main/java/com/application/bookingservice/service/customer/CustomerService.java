@@ -2,13 +2,19 @@ package com.application.bookingservice.service.customer;
 
 import com.application.bookingservice.dto.customer.CustomerRegistrationRequestDto;
 import com.application.bookingservice.dto.customer.CustomerRegistrationResponseDto;
+import com.application.bookingservice.dto.customer.CustomerResponseDto;
+import com.application.bookingservice.dto.customer.CustomerResponseDtoWithRoles;
+import com.application.bookingservice.dto.customer.CustomerUpdateRequestDto;
+import com.application.bookingservice.dto.customer.CustomerUpdateResponseDto;
+import com.application.bookingservice.dto.customer.CustomerUpdateRoleRequestDto;
 
 public interface CustomerService {
     CustomerRegistrationResponseDto register(CustomerRegistrationRequestDto requestDto);
 
-    Object updateRole(Long id, Object updateRequestDto);
+    CustomerResponseDtoWithRoles updateRole(Long id, CustomerUpdateRoleRequestDto updateRequestDto);
 
-    Object getById(Long customerId);
+    CustomerResponseDto getById(Long customerId);
 
-    Object updateById(Long customerId, Object customerRequestDto);
+    CustomerUpdateResponseDto updateById(Long customerId,
+                                         CustomerUpdateRequestDto customerUpdateRequestDto);
 }
