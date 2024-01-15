@@ -10,6 +10,8 @@ import com.application.bookingservice.model.Payment;
 import com.application.bookingservice.repository.booking.BookingRepository;
 import com.application.bookingservice.repository.payment.PaymentRepository;
 import java.util.List;
+
+import com.application.bookingservice.service.bot.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final BookingRepository bookingRepository;
     private final PaymentMapper paymentMapper;
+    private final NotificationService notificationService;
 
     @Override
     public List<PaymentResponseDto> getPaymentsByCustomerId(Long customerId) {
@@ -43,7 +46,7 @@ public class PaymentServiceImpl implements PaymentService {
         booking.setStatus(Booking.Status.CONFIRMED);
         bookingRepository.save(booking);
 
-        // logic to send TG notification about successfully confirmation
+        notificationService.paymentMessage(payment);
     }
 
     @Override
@@ -59,6 +62,6 @@ public class PaymentServiceImpl implements PaymentService {
         booking.setStatus(Booking.Status.REJECTED);
         bookingRepository.save(booking);
 
-        // logic to send TG notification about confirmation failure
+        notificationService.paymentMessage(payment);
     }
 }

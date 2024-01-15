@@ -11,6 +11,7 @@ import com.application.bookingservice.model.Address;
 import com.application.bookingservice.repository.accommodation.AccommodationRepository;
 import com.application.bookingservice.repository.address.AddressRepository;
 import com.application.bookingservice.service.address.AddressService;
+import com.application.bookingservice.service.bot.NotificationService;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class AccommodationServiceImpl implements AccommodationService {
     private final AccommodationMapper accommodationMapper;
     private final AddressService addressService;
     private final AddressRepository addressRepository;
+    private final NotificationService notificationService;
 
     @Override
     @Transactional
@@ -37,8 +39,9 @@ public class AccommodationServiceImpl implements AccommodationService {
                 .setAmenities(accommodationRequestDto.getAmenities())
                 .setPrice(accommodationRequestDto.getPrice())
                 .setAvailableUnits(accommodationRequestDto.getAvailableUnits());
-
-        return accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        AccommodationResponseDto savedAccommodationdto = accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        notificationService.accommodationCreatedMessage(savedAccommodationdto);
+        return savedAccommodationdto;
     }
 
     @Override
@@ -68,7 +71,9 @@ public class AccommodationServiceImpl implements AccommodationService {
                 .setAmenities(requestDto.getAmenities())
                 .setPrice(requestDto.getPrice())
                 .setAvailableUnits(requestDto.getAvailableUnits());
-        return accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        AccommodationResponseDto updatedAccommodationDto = accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        notificationService.accommodationUpdateMessage(updatedAccommodationDto);
+        return updatedAccommodationDto;
     }
 
     @Override
@@ -84,6 +89,8 @@ public class AccommodationServiceImpl implements AccommodationService {
         Long addressId = accommodation.getAddress().getId();
         Address address = addressService.updateById(addressId, requestDto);
         accommodation.setAddress(address);
-        return accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        AccommodationResponseDto updatedAccommodationDto = accommodationMapper.toDto(accommodationRepository.save(accommodation));
+        notificationService.accommodationUpdateAddressMessage(updatedAccommodationDto);
+        return updatedAccommodationDto;
     }
 }

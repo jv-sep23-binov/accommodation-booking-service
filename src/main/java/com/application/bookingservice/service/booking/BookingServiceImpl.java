@@ -15,6 +15,8 @@ import com.application.bookingservice.repository.booking.BookingRepository;
 import com.application.bookingservice.repository.booking.spec.BookingSpecificationBuilder;
 import com.application.bookingservice.repository.customer.CustomerRepository;
 import java.util.List;
+
+import com.application.bookingservice.service.bot.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,6 +40,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final BookingSpecificationBuilder specificationBuilder;
     private final BookingMapper bookingMapper;
+    private final NotificationService notificationService;
 
     @Override
     public BookingResponseDto save(Long customerId, BookingRequestDto requestBookingDto) {
@@ -48,7 +51,9 @@ public class BookingServiceImpl implements BookingService {
                         () -> new EntityNotFoundException(
                                 String.format(CUSTOMER_NOT_FOUND_MESSAGE, customerId))
                 ));
-        return bookingMapper.toDto(bookingRepository.save(booking));
+        BookingResponseDto SavedBookingDto = bookingMapper.toDto(bookingRepository.save(booking));
+        notificationService.bookingsCreatedMessage(SavedBookingDto);
+        return SavedBookingDto;
     }
 
     @Override
@@ -100,10 +105,12 @@ public class BookingServiceImpl implements BookingService {
         ).getCustomer().getId();
         if (customerId.equals(bookingCustomerId)) {
             bookingRepository.deleteById(id);
+            notificationService.bookingCanceledMessage(id);
+        } else {
+            throw new UnauthorizedActionException(
+                    String.format(UNAUTHORIZED_DELETE_MESSAGE, customerId, bookingCustomerId)
+            );
         }
-        throw new UnauthorizedActionException(
-                String.format(UNAUTHORIZED_DELETE_MESSAGE, customerId, bookingCustomerId)
-        );
     }
 
     @Override
@@ -122,6 +129,8 @@ public class BookingServiceImpl implements BookingService {
                 () -> new EntityNotFoundException(String.format(BOOKING_NOT_FOUND_MESSAGE, id))
         );
         booking.setStatus(requestDto.getStatus());
-        return bookingMapper.toDto(bookingRepository.save(booking));
+        BookingResponseDto updatedBookingDto = bookingMapper.toDto(bookingRepository.save(booking));
+        notificationService.bookingStatusChangedMessage(updatedBookingDto);
+        return updatedBookingDto;
     }
 }
