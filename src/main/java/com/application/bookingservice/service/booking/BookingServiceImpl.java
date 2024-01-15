@@ -47,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponseDto> findByCustomerIdAndStatus(
+    public List<BookingResponseDto> search(
             BookingSearchParametersDto searchParameters
     ) {
         Specification<Booking> specification = specificationBuilder.build(searchParameters);

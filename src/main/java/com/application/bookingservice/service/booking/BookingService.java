@@ -18,5 +18,5 @@ public interface BookingService {
 
     void deleteById(Long id);
 
-    List<BookingResponseDto> findByCustomerIdAndStatus(BookingSearchParametersDto searchParameters);
+    List<BookingResponseDto> search(BookingSearchParametersDto searchParameters);
 }

@@ -86,6 +86,6 @@ public class BookingController {
     public List<BookingResponseDto> getByCustomerAndStatus(
             BookingSearchParametersDto searchParameters
     ) {
-        return bookingService.findByCustomerIdAndStatus(searchParameters);
+        return bookingService.search(searchParameters);
     }
 }
