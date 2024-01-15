@@ -47,33 +47,35 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingResponseDto save(Long customerId, BookingRequestDto requestBookingDto) {
-        Booking booking = bookingMapper.toEntity(requestBookingDto);
+        Booking bookingToSave = bookingMapper.toEntity(requestBookingDto);
         Long accommodationId = requestBookingDto.getAccommodationId();
-        if (!bookingRepository.findByAccommodationId(accommodationId).isEmpty()) {
-            List<Booking> byAccommodationId = bookingRepository
-                    .findByAccommodationId(accommodationId);
-            for (Booking booking1 : byAccommodationId) {
-                if ((requestBookingDto.getCheckIn().isAfter(booking1.getCheckIn())
-                        && requestBookingDto.getCheckIn().isBefore(booking1.getCheckOut()))
-                        || (requestBookingDto.getCheckOut().isAfter(booking1.getCheckIn())
-                        && requestBookingDto.getCheckOut().isBefore(booking1.getCheckOut())
-                        || requestBookingDto.getCheckOut().isEqual(booking1.getCheckOut())
-                        || requestBookingDto.getCheckIn().isEqual(booking1.getCheckIn()))
-                ) {
-                    throw new UnauthorizedActionException(
-                            String.format(UNAUTHORIZED_BOOKING_MESSAGE, booking1.getCheckIn(),
-                                    booking1.getCheckOut(), requestBookingDto.getCheckIn(),
-                                    requestBookingDto.getCheckOut(), accommodationId));
-                }
+        List<Booking> byAccommodationId = bookingRepository
+                .findByAccommodationId(accommodationId);
+        LocalDate requestedCheckIn = requestBookingDto.getCheckIn();
+        LocalDate requestedCheckOut = requestBookingDto.getCheckOut();
+        for (Booking booking : byAccommodationId) {
+            LocalDate bookedCheckIn = booking.getCheckIn();
+            LocalDate bookedCheckOut = booking.getCheckOut();
+            if ((requestedCheckIn.isAfter(bookedCheckIn)
+                    && requestedCheckIn.isBefore(bookedCheckOut))
+                    || (requestedCheckOut.isAfter(bookedCheckIn)
+                    && requestedCheckOut.isBefore(bookedCheckOut)
+                    || requestedCheckOut.isEqual(bookedCheckOut)
+                    || requestedCheckIn.isEqual(bookedCheckIn))
+            ) {
+                throw new UnauthorizedActionException(
+                        String.format(UNAUTHORIZED_BOOKING_MESSAGE, bookedCheckIn,
+                                bookedCheckOut, requestedCheckIn,
+                                requestedCheckOut, accommodationId));
             }
         }
-        booking.setStatus(PENDING);
-        booking.setCustomer(customerRepository.findById(customerId)
+        bookingToSave.setStatus(PENDING);
+        bookingToSave.setCustomer(customerRepository.findById(customerId)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
                                 String.format(CUSTOMER_NOT_FOUND_MESSAGE, customerId))
                 ));
-        return bookingMapper.toDto(bookingRepository.save(booking));
+        return bookingMapper.toDto(bookingRepository.save(bookingToSave));
     }
 
     @Override
