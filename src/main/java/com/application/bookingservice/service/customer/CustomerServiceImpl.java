@@ -1,9 +1,11 @@
 package com.application.bookingservice.service.customer;
 
-import com.application.bookingservice.dto.customer.CustomerDto;
 import com.application.bookingservice.dto.customer.CustomerRegistrationRequestDto;
 import com.application.bookingservice.dto.customer.CustomerRegistrationResponseDto;
+import com.application.bookingservice.dto.customer.CustomerResponseDto;
 import com.application.bookingservice.dto.customer.CustomerResponseDtoWithRoles;
+import com.application.bookingservice.dto.customer.CustomerUpdateRequestDto;
+import com.application.bookingservice.dto.customer.CustomerUpdateResponseDto;
 import com.application.bookingservice.dto.customer.CustomerUpdateRoleRequestDto;
 import com.application.bookingservice.exception.RegistrationException;
 import com.application.bookingservice.mapper.CustomerMapper;
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
 public class CustomerServiceImpl implements CustomerService {
     private static final String CUSTOMER_ALREADY_REGISTERED_MESSAGE
             = "Customer is already exist";
+    private static final String CUSTOMER_NOT_FOUND_MESSAGE
+            = "Customer is not found with id: ";
     private final CustomerRepository customerRepository;
     private final RoleRepository roleRepository;
     private final CustomerMapper customerMapper;
@@ -45,33 +49,33 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponseDtoWithRoles updateRole(Long id,
                                                    CustomerUpdateRoleRequestDto updateRequestDto) {
         Customer existingCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Customer is "
-                        + "not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + id));
         Set<Role> newRoles = new HashSet<>(roleRepository
                 .findAllById(updateRequestDto.getRoleIds()));
         existingCustomer.setRoles(newRoles);
 
-        return customerMapper.toCustomerResponseDto(customerRepository.save(existingCustomer));
+        return customerMapper.toDtoWithRoles(customerRepository.save(existingCustomer));
     }
 
     @Override
-    public CustomerDto getById(Long customerId) {
+    public CustomerResponseDto getById(Long customerId) {
         Customer customer = customerRepository
                 .findById(customerId)
-                .orElseThrow(() -> new EntityNotFoundException("Customer is not found with id: "
+                .orElseThrow(() -> new EntityNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE
                         + customerId));
-        return customerMapper.toCustomerDto(customer);
+        return customerMapper.toResponseDto(customer);
     }
 
     @Override
-    public CustomerDto updateById(Long customerId, CustomerDto customerDto) {
+    public CustomerUpdateResponseDto updateById(Long customerId,
+                                          CustomerUpdateRequestDto customerUpdateRequestDto) {
         Customer customer = customerRepository
                 .findById(customerId)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: "
+                .orElseThrow(() -> new EntityNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE
                         + customerId));
-        customer.setEmail(customerDto.getEmail());
-        customer.setFirstName(customerDto.getFirstName());
-        customer.setLastName(customerDto.getLastName());
-        return customerMapper.toCustomerDto(customerRepository.save(customer));
+        customer.setEmail(customerUpdateRequestDto.getEmail());
+        customer.setFirstName(customerUpdateRequestDto.getFirstName());
+        customer.setLastName(customerUpdateRequestDto.getLastName());
+        return customerMapper.toUpdateResponseDto(customerRepository.save(customer));
     }
 }
