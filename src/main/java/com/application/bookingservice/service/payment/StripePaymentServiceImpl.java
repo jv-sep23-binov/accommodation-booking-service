@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StripePaymentServiceImpl implements StripePaymentService {
     private static final String CHECKOUT_FAILURE_MESSAGE = "Checkout failure! ";
-    private static final String REQUESTED_PARAM = "?session-id={CHECKOUT_SESSION_ID}";
     private static final String DEFAULT_PRODUCT_TYPE = "Booking";
     private static final String DEFAULT_CURRENCY_USD = "usd";
     private static final Long DEFAULT_PRODUCTS_QUANTITY = 1L;
@@ -40,8 +39,8 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     @Override
     public PaymentCreateResponseDto createPaymentSession(PaymentRequestDto requestDto) {
         SessionCreateParams params = SessionCreateParams.builder()
-                .setSuccessUrl(String.format(successUrl, REQUESTED_PARAM))
-                .setCancelUrl(String.format(cancelUrl, REQUESTED_PARAM))
+                .setSuccessUrl(successUrl)
+                .setCancelUrl(cancelUrl)
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setPrice(getPrice(requestDto.getTotal()))
                         .setQuantity(DEFAULT_PRODUCTS_QUANTITY)

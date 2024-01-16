@@ -40,8 +40,8 @@ public class SecurityConfig {
                                         "/health",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
-                                        "/success**",
-                                        "/cancel**")
+                                        "/payments/success",
+                                        "/payments/cancel")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
