@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-column-customer-table
+      author: BINOV_team
+      changes:
+        - addColumn:
+            tableName: customers
+            columns:
+              - column:
+                  name: chat_id
+                  type: bigint

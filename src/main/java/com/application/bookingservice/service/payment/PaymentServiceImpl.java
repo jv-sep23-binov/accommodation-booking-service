@@ -6,6 +6,7 @@ import com.application.bookingservice.dto.payment.PaymentResponseDto;
 import com.application.bookingservice.exception.EntityNotFoundException;
 import com.application.bookingservice.mapper.PaymentMapper;
 import com.application.bookingservice.model.Booking;
+import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.model.Payment;
 import com.application.bookingservice.repository.booking.BookingRepository;
 import com.application.bookingservice.repository.payment.PaymentRepository;
@@ -44,7 +45,10 @@ public class PaymentServiceImpl implements PaymentService {
         Booking booking = payment.getBooking();
         booking.setStatus(Booking.Status.CONFIRMED);
         bookingRepository.save(booking);
-
+        Customer customer = booking.getCustomer();
+        if (customer.getChatId() != null) {
+            notificationService.sendToUserPayment(customer.getChatId(), payment);
+        }
         notificationService.paymentMessage(payment);
     }
 
@@ -60,7 +64,10 @@ public class PaymentServiceImpl implements PaymentService {
         Booking booking = payment.getBooking();
         booking.setStatus(Booking.Status.REJECTED);
         bookingRepository.save(booking);
-
+        Customer customer = booking.getCustomer();
+        if (customer.getChatId() != null) {
+            notificationService.sendToUserPayment(customer.getChatId(), payment);
+        }
         notificationService.paymentMessage(payment);
     }
 }
