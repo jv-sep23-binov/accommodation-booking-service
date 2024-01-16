@@ -43,6 +43,7 @@ class AccommodationRepositoryTest {
 
         Accommodation actual = accommodationRepository.findById(1L).get();
 
-        assertEquals(expected, actual);
+        assertEquals(expected, actual, "Expected accommodation should be: " + expected
+                + " but was: " + actual);
     }
 }

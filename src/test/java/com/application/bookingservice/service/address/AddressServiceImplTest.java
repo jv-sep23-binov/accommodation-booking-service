@@ -57,6 +57,7 @@ class AddressServiceImplTest {
         Address expected = updatedAddress;
         Address actual = addressService.updateById(id, requestDto);
 
-        assertEquals(expected, actual);
+        assertEquals(expected, actual, "Expected address should be: " + expected
+                + " but was: " + actual);
     }
 }

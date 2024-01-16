@@ -1,6 +1,5 @@
 package com.application.bookingservice.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,6 +27,10 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AccommodationControllerTest {
     protected static MockMvc mockMvc;
+    private static AddressResponseDto address1;
+    private static AddressResponseDto address2;
+    private static AccommodationResponseDto accommodation1;
+    private static AccommodationResponseDto accommodation2;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -39,6 +42,38 @@ class AccommodationControllerTest {
                 .webAppContextSetup(applicationContext)
                 .apply(springSecurity())
                 .build();
+
+        address1 = new AddressResponseDto()
+                .setId(1L)
+                .setCountry("Ukraine")
+                .setCity("Lviv")
+                .setStreet("Bohdan Khmelnytsky")
+                .setBuilding(100);
+
+        accommodation1 = new AccommodationResponseDto()
+                .setId(1L)
+                .setType(Accommodation.Type.HOUSE)
+                .setAddress(address1)
+                .setSize("100 sq.m.")
+                .setAmenities("All")
+                .setPrice(new BigDecimal("100.00"))
+                .setAvailableUnits(1);
+
+        address2 = new AddressResponseDto()
+                .setId(2L)
+                .setCountry("Ukraine")
+                .setCity("Kyiv")
+                .setStreet("Sichovykh Striltsiv")
+                .setBuilding(15);
+
+        accommodation2 = new AccommodationResponseDto()
+                .setId(2L)
+                .setType(Accommodation.Type.HOUSE)
+                .setAddress(address2)
+                .setSize("56 sq.m.")
+                .setAmenities("All")
+                .setPrice(new BigDecimal("300.00"))
+                .setAvailableUnits(2);
     }
 
     @Test
@@ -50,38 +85,6 @@ class AccommodationControllerTest {
             + "accommodations/delete-accommodations-and-addresses-from-tables.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getAll_GivenTwoAccommodations_ReturnAll() throws Exception {
-        AddressResponseDto address1 = new AddressResponseDto()
-                .setId(1L)
-                .setCountry("Ukraine")
-                .setCity("Lviv")
-                .setStreet("Bohdan Khmelnytsky")
-                .setBuilding(100);
-
-        AccommodationResponseDto accommodation1 = new AccommodationResponseDto()
-                .setId(1L)
-                .setType(Accommodation.Type.HOUSE)
-                .setAddress(address1)
-                .setSize("100 sq.m.")
-                .setAmenities("All")
-                .setPrice(new BigDecimal("100.00"))
-                .setAvailableUnits(1);
-
-        AddressResponseDto address2 = new AddressResponseDto()
-                .setId(2L)
-                .setCountry("Ukraine")
-                .setCity("Kyiv")
-                .setStreet("Sichovykh Striltsiv")
-                .setBuilding(15);
-
-        AccommodationResponseDto accommodation2 = new AccommodationResponseDto()
-                .setId(2L)
-                .setType(Accommodation.Type.HOUSE)
-                .setAddress(address2)
-                .setSize("56 sq.m.")
-                .setAmenities("All")
-                .setPrice(new BigDecimal("300.00"))
-                .setAvailableUnits(2);
-
         List<AccommodationResponseDto> expected = List.of(accommodation1, accommodation2);
 
         MvcResult result = mockMvc.perform(get("/accommodations")
@@ -93,7 +96,7 @@ class AccommodationControllerTest {
                 result.getResponse().getContentAsString(),
                 new TypeReference<List<AccommodationResponseDto>>() {});
 
-        assertEquals(expected.size(), actual.size());
-        assertIterableEquals(expected, actual);
+        assertIterableEquals(expected, actual, "Expected accommodations should be: " + expected
+                + " but was: " + actual);
     }
 }

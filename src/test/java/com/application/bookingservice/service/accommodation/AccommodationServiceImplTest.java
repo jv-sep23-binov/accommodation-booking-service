@@ -33,7 +33,6 @@ class AccommodationServiceImplTest {
     private AccommodationRepository accommodationRepository;
     @Mock
     private AccommodationMapper accommodationMapper;
-
     @InjectMocks
     private AccommodationServiceImpl accommodationService;
 
@@ -85,7 +84,8 @@ class AccommodationServiceImplTest {
         Mockito.when(accommodationMapper.toDto(accommodation)).thenReturn(accommodationResponseDto);
 
         List<AccommodationResponseDto> actual = accommodationService.getAll(pageable);
-        assertEquals(expected, actual);
+        assertEquals(expected, actual, "Expected accommodations should be: " + expected
+                + " but was: " + actual);
     }
 
     @Test
@@ -100,6 +100,7 @@ class AccommodationServiceImplTest {
         AccommodationResponseDto expected = accommodationResponseDto;
         AccommodationResponseDto actual = accommodationService.findById(id);
 
-        assertEquals(expected, actual);
+        assertEquals(expected, actual, "Expected accommodation should be: " + expected
+                + " but was: " + actual);
     }
 }
