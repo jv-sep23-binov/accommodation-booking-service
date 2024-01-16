@@ -2,7 +2,6 @@ package com.application.bookingservice.repository.booking.spec;
 
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.repository.SpecificationProvider;
-import java.util.Arrays;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +16,6 @@ public class CustomerIdSpecificationProvider implements SpecificationProvider<Bo
 
     public Specification<Booking> getSpecification(String[] params) {
         return (root, query, criteriaBuilder)
-                -> root.get(CUSTOMER_ID).in(Arrays.stream(Arrays.stream(params).toArray()));
+                -> root.join("customer").get("id").in(params);
     }
 }
