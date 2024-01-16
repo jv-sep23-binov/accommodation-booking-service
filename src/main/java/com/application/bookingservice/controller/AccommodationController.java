@@ -5,7 +5,6 @@ import com.application.bookingservice.dto.accommodation.AccommodationResponseDto
 import com.application.bookingservice.dto.accommodation.AccommodationUpdateRequestDto;
 import com.application.bookingservice.dto.address.AddressRequestDto;
 import com.application.bookingservice.service.accommodation.AccommodationService;
-import com.application.bookingservice.service.address.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

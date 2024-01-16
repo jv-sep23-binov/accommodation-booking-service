@@ -1,7 +1,6 @@
 package com.application.bookingservice.repository.accommodation;
 
 import com.application.bookingservice.model.Accommodation;
-
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;

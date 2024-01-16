@@ -4,12 +4,11 @@ import com.application.bookingservice.config.MapperConfig;
 import com.application.bookingservice.dto.payment.PaymentRequestDto;
 import com.application.bookingservice.dto.payment.PaymentResponseDto;
 import com.application.bookingservice.model.Payment;
+import java.util.List;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-
-import java.util.List;
 
 @Mapper(config = MapperConfig.class)
 public interface PaymentMapper {
