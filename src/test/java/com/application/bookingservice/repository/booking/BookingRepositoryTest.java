@@ -1,11 +1,10 @@
-package com.application.bookingservice.repository;
+package com.application.bookingservice.repository.booking;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.application.bookingservice.model.Accommodation;
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.model.Customer;
-import com.application.bookingservice.repository.booking.BookingRepository;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
