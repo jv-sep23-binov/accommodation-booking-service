@@ -31,10 +31,17 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@Sql(scripts = {"classpath:db/booking/insert-addresses-table.sql",
+@Sql(scripts = {
+        "classpath:db/booking/insert-addresses-table.sql",
         "classpath:db/booking/insert-accommodations-table.sql",
         "classpath:db/booking/insert-bookings-table.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = {
+        "classpath:db/payment/delete-payments.sql",
+        "classpath:db/booking/delete-bookings.sql",
+        "classpath:db/accommodation/delete-accommodations.sql",
+        "classpath:db/address/delete-addresses.sql"
+}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookingControllerTest {
     protected static MockMvc mockMvc;

@@ -1,10 +1,9 @@
-package com.application.bookingservice.repository;
+package com.application.bookingservice.repository.customer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.application.bookingservice.model.Customer;
-import com.application.bookingservice.repository.customer.CustomerRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
