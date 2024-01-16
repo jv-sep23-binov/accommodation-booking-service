@@ -78,10 +78,10 @@ But wait, there's more! Stay in the loop with our Telegram Notifications Service
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>The project has such controllers:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 📝🔑**Authentication Controller** - endpoints with open access for new users who want to register and for registered users who want to log in.
 
-| HTTP method |       Endpoint        |           Description           |
-|:-----------:|:---------------------:|:-------------------------------:|
-|    POST     | `/auth/registration ` |       Register a new user       |
-|    POST     |    `/auth/login `     |   Login as a registered user    |
+| HTTP method |       Endpoint        |          Description           |
+|:-----------:|:---------------------:|:------------------------------:|
+|    POST     | `/auth/registration ` |    Register a new customer     |
+|    POST     |    `/auth/login `     | Login as a registered customer |
 
 🧑‍💼 **Customer Controller** - endpoints for managing customers.
 
