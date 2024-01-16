@@ -147,9 +147,7 @@ public class BookingServiceImpl implements BookingService {
             BookingSearchParametersDto searchParameters
     ) {
         Specification<Booking> specification = specificationBuilder.build(searchParameters);
-        return bookingRepository.findAll(specification).stream()
-                .map(bookingMapper::toDto)
-                .toList();
+        return bookingMapper.toDtos(bookingRepository.findAll(specification));
     }
 
     @Override
