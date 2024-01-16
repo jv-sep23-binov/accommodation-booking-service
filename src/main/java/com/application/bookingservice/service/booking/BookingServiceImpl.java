@@ -169,8 +169,8 @@ public class BookingServiceImpl implements BookingService {
         LocalDate nowDate = LocalDate.now();
         List<Booking> bookings = bookingRepository.findAll();
         for (Booking booking : bookings) {
-            if (booking.getCheckOut().isAfter(nowDate)
-                    || booking.getCheckOut().isEqual(nowDate)) {
+            if ((booking.getCheckOut().isAfter(nowDate)
+                    || booking.getCheckOut().isEqual(nowDate)) && booking.getStatus() != EXPIRED) {
                 booking.setStatus(EXPIRED);
                 bookingRepository.save(booking);
                 expired = true;
