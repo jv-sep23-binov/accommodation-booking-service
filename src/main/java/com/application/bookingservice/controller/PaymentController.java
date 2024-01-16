@@ -7,6 +7,8 @@ import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.service.payment.PaymentService;
 import com.application.bookingservice.service.payment.StripePaymentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/payments")
 @RequiredArgsConstructor
+@Tag(name = "Payment management.",
+        description = "Endpoints for managing payments.")
 public class PaymentController {
     private final StripePaymentService stripePaymentService;
     private final PaymentService paymentService;
@@ -29,7 +33,8 @@ public class PaymentController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_MANAGER')")
     @Operation(summary = "All user's payments",
-            description = "Get payments history of certain customer")
+            description = "Get payments history of certain customer",
+            security = @SecurityRequirement(name = "bearerAuth"))
     public List<PaymentResponseDto> getPaymentsByUserId(Authentication authentication) {
         Customer customer = (Customer) authentication.getPrincipal();
         return paymentService.getPaymentsByCustomerId(customer.getId());
@@ -38,7 +43,9 @@ public class PaymentController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @Operation(summary = "Checkout payment",
-            description = "Checkout payment for user's booking")
+            description = "Checkout payment for user's booking",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
     public PaymentCreateResponseDto checkout(@RequestBody @Valid PaymentRequestDto requestDto) {
         return stripePaymentService.createPaymentSession(requestDto);
     }
