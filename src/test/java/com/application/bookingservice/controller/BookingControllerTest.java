@@ -30,9 +30,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@Sql(scripts = {"classpath:database/booking/insert-addresses-table.sql",
-        "classpath:database/booking/insert-accommodations-table.sql",
-        "classpath:database/booking/insert-bookings-table.sql"},
+@Sql(scripts = {"classpath:db/booking/insert-addresses-table.sql",
+        "classpath:db/booking/insert-accommodations-table.sql",
+        "classpath:db/booking/insert-bookings-table.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookingControllerTest {
