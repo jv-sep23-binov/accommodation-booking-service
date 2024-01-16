@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.HashMap;
@@ -25,8 +26,8 @@ public class NotificationBot extends TelegramLongPollingBot {
     private static final String CANCEL_COMMAND = "/cancel";
     private static final String CANT_LOG_MESSAGE = "Can't send logs to chat text: %s";
     private static final String CANT_SEND_MESSAGE = "Can't send message to user chatId: %d";
-    private static final String START_MESSAGE = "Hello, I am a bot for logging in BINOV booking \n "
-            + "please use /auth to start recive messages";
+    private static final String START_MESSAGE = "hello im BINOV_booking_bot use /auth command "
+            + "if you haven't done it yet to receive notification or /cancel to stop receive messages";
     private final String botName;
     private final CustomerRepository customerRepository;
     private CustomerLoginRequestDto requestDto;
@@ -66,40 +67,7 @@ public class NotificationBot extends TelegramLongPollingBot {
         if (recivedText.equals(START_COMMAND)) {
             handleStartCommand(update);
         } else if (authStates.containsKey(chatId)) {
-            switch (currentState) {
-                case STARTED:
-                    sendTextMessage(chatId, "Please enter your login:");
-                    authStates.put(chatId, AuthState.LOGIN);
-                    break;
-                case LOGIN:
-                    requestDto = loginData.getOrDefault(chatId, new CustomerLoginRequestDto());
-                    requestDto.setEmail(recivedText);
-                    sendTextMessage(chatId, "Password:");
-                    loginData.put(chatId, requestDto);
-                    authStates.put(chatId, AuthState.PASSWORD);
-                    break;
-                case PASSWORD:
-                    requestDto = loginData.getOrDefault(chatId, new CustomerLoginRequestDto());
-                    requestDto.setPassword(recivedText);
-                    try {
-                        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                                requestDto.getEmail(), requestDto.getPassword()
-                        ));
-                        Customer customer = customerRepository.findByEmail(requestDto.getEmail()).orElseThrow(
-                                () -> new EntityNotFoundException("Can't find customer")
-                        );
-                        customer.setChatId(chatId);
-                        customerRepository.save(customer);
-                        sendTextMessage(chatId, "Successful, now you will receive "
-                                + "notifications from BINOV_booking");
-                    } catch (Exception e) {
-                        sendTextMessage(chatId, "Wrong password or login please try again");
-                    } finally {
-                        authStates.remove(chatId);
-                        requestDto.setPassword("");
-                    }
-                    break;
-            }
+           authProcess(currentState, chatId, update);
         } else if (recivedText.equals(AUTH_COMMAND)) {
             sendTextMessage(chatId, "Please enter your login:");
             authStates.put(chatId, AuthState.LOGIN);
@@ -111,18 +79,57 @@ public class NotificationBot extends TelegramLongPollingBot {
             customerRepository.save(customer);
             sendTextMessage(chatId, "notification canceled successful");
         } else {
-            sendTextMessage(chatId, "hello im BINOV_booking_bot use /auth command if you haven't done it yet to receive notification or /cancel to stop receive messages");
+            sendTextMessage(chatId, START_MESSAGE);
         }
     }
 
-    private void sendTextMessageToAll(String text) {
+    private void authProcess(AuthState currentState, Long chatId, Update update) {
+        String text = update.getMessage().getText();
+        switch (currentState) {
+            case STARTED:
+                sendTextMessage(chatId, "Please enter your login:");
+                authStates.put(chatId, AuthState.LOGIN);
+                break;
+            case LOGIN:
+                requestDto = loginData.getOrDefault(chatId, new CustomerLoginRequestDto());
+                requestDto.setEmail(text);
+                sendTextMessage(chatId, "Password:");
+                loginData.put(chatId, requestDto);
+                authStates.put(chatId, AuthState.PASSWORD);
+                break;
+            case PASSWORD:
+                requestDto = loginData.getOrDefault(chatId, new CustomerLoginRequestDto());
+                requestDto.setPassword(text);
+                deletePreviousMessage(chatId, update);
+                try {
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                            requestDto.getEmail(), requestDto.getPassword()
+                    ));
+                    Customer customer = customerRepository.findByEmail(requestDto.getEmail()).orElseThrow(
+                            () -> new EntityNotFoundException("Can't find customer")
+                    );
+                    customer.setChatId(chatId);
+                    customerRepository.save(customer);
+                    sendTextMessage(chatId, "Successful, now you will receive "
+                            + "notifications from BINOV_booking");
+                } catch (Exception e) {
+                    sendTextMessage(chatId, "Wrong password or login please try again");
+                } finally {
+                    authStates.remove(chatId);
+                    requestDto.setPassword("");
+                }
+                break;
+        }
+    }
+
+    public void sendTextMessageToAll(String text) {
         List<Customer> allByChatIdNotNull = customerRepository.findAllByChatIdNotNull();
         for (int i = 0; i < allByChatIdNotNull.size(); i++) {
             sendTextMessage(allByChatIdNotNull.get(i).getChatId(), text);
         }
     }
 
-    private void sendTextMessage(long chatId, String text) {
+    public void sendTextMessage(long chatId, String text) {
         SendMessage message = new SendMessage();
                message.setChatId(chatId);
         message.setText(text);
@@ -154,6 +161,18 @@ public class NotificationBot extends TelegramLongPollingBot {
             execute(sendMessage);
         } catch (TelegramApiException e) {
             throw new TelegramMessageException(String.format(CANT_SEND_MESSAGE, chatId), e);
+        }
+    }
+
+    private void deletePreviousMessage(Long chatId, Update update) {
+        int messageId = update.getMessage().getMessageId();
+        DeleteMessage deleteMessage = new DeleteMessage();
+         deleteMessage.setChatId(chatId);
+         deleteMessage.setMessageId(messageId);
+        try {
+            execute(deleteMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 
