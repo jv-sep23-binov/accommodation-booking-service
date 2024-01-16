@@ -4,8 +4,10 @@ import com.application.bookingservice.dto.address.AddressResponseDto;
 import com.application.bookingservice.model.Accommodation.Type;
 import java.math.BigDecimal;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class AccommodationResponseDto {
     private Long id;
     private Type type;
