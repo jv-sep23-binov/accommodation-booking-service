@@ -1,12 +1,18 @@
 package com.application.bookingservice.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.application.bookingservice.dto.accommodation.AccommodationResponseDto;
 import com.application.bookingservice.dto.address.AddressResponseDto;
 import com.application.bookingservice.model.Accommodation;
-import com.application.bookingservice.model.Address;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
+import java.math.BigDecimal;
+import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AccommodationControllerTest {
@@ -45,8 +43,12 @@ class AccommodationControllerTest {
 
     @Test
     @WithMockUser(username = "customer", roles = {"CUSTOMER"})
-    @Sql(scripts = "classpath:db/accommodations/add-accommodations-and-addresses-to-tables.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:db/accommodations/delete-accommodations-and-addresses-from-tables.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(scripts = "classpath:db/"
+            + "accommodations/add-accommodations-and-addresses-to-tables.sql",
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:db/"
+            + "accommodations/delete-accommodations-and-addresses-from-tables.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getAll_GivenTwoAccommodations_ReturnAll() throws Exception {
         AddressResponseDto address1 = new AddressResponseDto()
                 .setId(1L)
@@ -91,7 +93,7 @@ class AccommodationControllerTest {
                 result.getResponse().getContentAsString(),
                 new TypeReference<List<AccommodationResponseDto>>() {});
 
-        Assertions.assertEquals(expected.size(), actual.size());
-        Assertions.assertIterableEquals(expected, actual);
+        assertEquals(expected.size(), actual.size());
+        assertIterableEquals(expected, actual);
     }
 }

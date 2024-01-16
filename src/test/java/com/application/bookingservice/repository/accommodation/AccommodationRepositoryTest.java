@@ -4,13 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.application.bookingservice.model.Accommodation;
 import com.application.bookingservice.model.Address;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
-import java.math.BigDecimal;
-
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -19,8 +18,12 @@ class AccommodationRepositoryTest {
     private AccommodationRepository accommodationRepository;
 
     @Test
-    @Sql(scripts = "classpath:db/accommodations/add-accommodations-and-addresses-to-tables.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:db/accommodations/delete-accommodations-and-addresses-from-tables.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(scripts = "classpath:db/"
+            + "accommodations/add-accommodations-and-addresses-to-tables.sql",
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:db/"
+            + "accommodations/delete-accommodations-and-addresses-from-tables.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findById_AccommodationWithAddress_ReturnAccommodation() {
         Address address = new Address()
                 .setId(1L)
@@ -38,7 +41,7 @@ class AccommodationRepositoryTest {
                 .setPrice(new BigDecimal("100.00"))
                 .setAvailableUnits(1);
 
-        Accommodation actual = accommodationRepository.findById(1l).get();
+        Accommodation actual = accommodationRepository.findById(1L).get();
 
         assertEquals(expected, actual);
     }

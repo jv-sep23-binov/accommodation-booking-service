@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.application.bookingservice.dto.address.AddressRequestDto;
 import com.application.bookingservice.model.Address;
 import com.application.bookingservice.repository.address.AddressRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,8 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class AddressServiceImplTest {
@@ -24,6 +23,7 @@ class AddressServiceImplTest {
     private AddressRepository addressRepository;
     @InjectMocks
     private AddressServiceImpl addressService;
+
     @BeforeAll
     static void beforeAll() {
         address = new Address()
