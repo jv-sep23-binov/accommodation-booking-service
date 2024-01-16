@@ -51,6 +51,7 @@ public class Customer implements UserDetails {
     private Long chatId;
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
