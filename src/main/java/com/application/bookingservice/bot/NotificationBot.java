@@ -172,7 +172,7 @@ public class NotificationBot extends TelegramLongPollingBot {
         try {
             execute(deleteMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new TelegramMessageException("Can't delete user message", e);
         }
     }
 
