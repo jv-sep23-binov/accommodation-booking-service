@@ -153,4 +153,47 @@ public class TelegramNotificationService implements NotificationService {
         return true;
     }
 
+    @Override
+    public Boolean sendToUserBookingSuccessful(Long chatId, BookingResponseDto responseDto) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Dear user your booking was successful \n you check in data: ")
+                        .append(responseDto.getCheckIn())
+                        .append("\nyour check out date :")
+                        .append(responseDto.getCheckOut())
+                .append("\nThanks for picking BINOVO_booking!");
+        notificationBot.sendTextMessage(chatId, stringBuilder.toString());
+        return true;
+    }
+
+    @Override
+    public Boolean sendToUserPayment(Long chatId, Payment payment) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(" Dear user your payment was ")
+                .append(payment.getStatus())
+                .append("\ntotal :")
+                .append(payment.getTotal())
+                .append("\nThanks for picking BINOVO_booking!");
+        notificationBot.sendTextMessage(chatId, stringBuilder.toString());
+        return true;
+    }
+
+    @Override
+    public Boolean sendToUserNewAccommodation(AccommodationResponseDto responseDto) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Dear users we added new accommodation \naddress: ")
+                .append(responseDto.getAddress())
+                .append("\ntype: ")
+                .append(responseDto.getType())
+                .append("\nbest price :")
+                .append(responseDto.getPrice());
+        notificationBot.sendTextMessageToAll(stringBuilder.toString());
+        return true;
+    }
+
+    @Override
+    public Boolean sendToAllUsers(String text) {
+        notificationBot.sendTextMessageToAll(text);
+        return true;
+    }
+
 }

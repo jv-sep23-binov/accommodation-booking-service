@@ -20,4 +20,12 @@ public interface NotificationService {
     Boolean paymentMessage(Payment payment);
 
     Boolean bookingExpiredMessage(String text);
+
+    Boolean sendToUserBookingSuccessful(Long chatId, BookingResponseDto responseDto);
+
+    Boolean sendToUserPayment(Long chatId, Payment payment);
+
+    Boolean sendToUserNewAccommodation(AccommodationResponseDto responseDto);
+
+    Boolean sendToAllUsers(String text);
 }

@@ -19,3 +19,5 @@ databaseChangeLog:
       file: db/changelog/changes/09-insert-customers.yaml
   - include:
       file: db/changelog/changes/10-insert-demo-customers-roles.yaml
+  - include:
+      file: db/changelog/changes/11-add-column-customer-table.yaml

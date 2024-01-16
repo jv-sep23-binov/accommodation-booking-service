@@ -12,6 +12,7 @@ import com.application.bookingservice.exception.EntityNotFoundException;
 import com.application.bookingservice.exception.UnauthorizedActionException;
 import com.application.bookingservice.mapper.BookingMapper;
 import com.application.bookingservice.model.Booking;
+import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.repository.booking.BookingRepository;
 import com.application.bookingservice.repository.booking.spec.BookingSpecificationBuilder;
 import com.application.bookingservice.repository.customer.CustomerRepository;
@@ -81,6 +82,12 @@ public class BookingServiceImpl implements BookingService {
                 ));
         BookingResponseDto savedBookingDto = bookingMapper
                 .toDto(bookingRepository.save(bookingToSave));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(
+                () -> new EntityNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE)
+        );
+        if (customer.getChatId() != null) {
+            notificationService.sendToUserBookingSuccessful(customer.getChatId(), savedBookingDto);
+        }
         notificationService.bookingsCreatedMessage(savedBookingDto);
         return savedBookingDto;
     }
@@ -167,8 +174,8 @@ public class BookingServiceImpl implements BookingService {
         LocalDate nowDate = LocalDate.now();
         List<Booking> bookings = bookingRepository.findAll();
         for (Booking booking : bookings) {
-            if (booking.getCheckOut().isAfter(nowDate)
-                    || booking.getCheckOut().isEqual(nowDate)) {
+            if ((booking.getCheckOut().isAfter(nowDate)
+                    || booking.getCheckOut().isEqual(nowDate)) && booking.getStatus() != EXPIRED) {
                 booking.setStatus(EXPIRED);
                 bookingRepository.save(booking);
                 expired = true;

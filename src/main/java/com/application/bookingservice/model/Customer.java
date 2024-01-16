@@ -47,6 +47,8 @@ public class Customer implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+    @Column(name = "chat_id")
+    private Long chatId;
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 

@@ -39,6 +39,7 @@ public class AccommodationServiceImpl implements AccommodationService {
         AccommodationResponseDto savedAccommodationDto
                 = accommodationMapper.toDto(accommodationRepository.save(accommodation));
 
+        notificationService.sendToUserNewAccommodation(savedAccommodationDto);
         notificationService.accommodationCreatedMessage(savedAccommodationDto);
         return savedAccommodationDto;
     }
