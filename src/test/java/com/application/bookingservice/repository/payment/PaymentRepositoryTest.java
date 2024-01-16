@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.application.bookingservice.model.Booking;
 import com.application.bookingservice.model.Payment;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -54,9 +55,38 @@ class PaymentRepositoryTest {
     void findBySessionId_ValidData_ReturnsCorrectPayment() {
         Optional<Payment> expected = Optional.of(payment);
         Optional<Payment> actual = paymentRepository.findBySessionId(payment.getSessionId());
+
         assertEquals(expected, actual,
                 "Expected payment should be: " + expected
                         + " but was: " + actual
+        );
+    }
+
+    @Test
+    @DisplayName("Find payments by customer id")
+    @Sql(scripts = {
+            "classpath:db/address/add-addresses.sql",
+            "classpath:db/accommodation/add-accommodations.sql",
+            "classpath:db/booking/add-bookings.sql",
+            "classpath:db/payment/add-payments.sql"
+    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {
+            "classpath:db/payment/delete-payments.sql",
+            "classpath:db/booking/delete-bookings.sql",
+            "classpath:db/accommodation/delete-accommodations.sql",
+            "classpath:db/address/delete-addresses.sql"
+    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void findAllByCustomerId_ValidData_ReturnsCorrectPayments() {
+        List<Payment> expected = List.of(payment);
+        List<Payment> actual = paymentRepository.findAllByCustomerId(2L);
+
+        assertEquals(expected.size(), actual.size(),
+                "Expected payments quantity should be: " + expected
+                        + " but was: " + actual
+        );
+        assertEquals(expected.get(0), actual.get(0),
+                "Expected payment should be: " + expected.get(0)
+                        + " but was: " + actual.get(0)
         );
     }
 }
