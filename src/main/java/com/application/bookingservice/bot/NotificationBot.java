@@ -5,6 +5,9 @@ import com.application.bookingservice.exception.TelegramMessageException;
 import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.repository.customer.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,9 +17,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class NotificationBot extends TelegramLongPollingBot {
@@ -27,7 +27,9 @@ public class NotificationBot extends TelegramLongPollingBot {
     private static final String CANT_LOG_MESSAGE = "Can't send logs to chat text: %s";
     private static final String CANT_SEND_MESSAGE = "Can't send message to user chatId: %d";
     private static final String START_MESSAGE = "hello im BINOV_booking_bot use /auth command "
-            + "if you haven't done it yet to receive notification or /cancel to stop receive messages";
+            + "if you haven't done it yet to receive notification "
+            + "or /cancel to stop receive messages";
+    private static final String DELETE_MESSAGE = "Can't delete user message";
     private final String botName;
     private final CustomerRepository customerRepository;
     private CustomerLoginRequestDto requestDto;
@@ -60,14 +62,13 @@ public class NotificationBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        sendTextMessageToAll(update.getMessage().getText());
         Long chatId = update.getMessage().getChatId();
         AuthState currentState = authStates.getOrDefault(chatId, AuthState.STARTED);
         String recivedText = update.getMessage().getText();
         if (recivedText.equals(START_COMMAND)) {
             handleStartCommand(update);
         } else if (authStates.containsKey(chatId)) {
-           authProcess(currentState, chatId, update);
+            authProcess(currentState, chatId, update);
         } else if (recivedText.equals(AUTH_COMMAND)) {
             sendTextMessage(chatId, "Please enter your login:");
             authStates.put(chatId, AuthState.LOGIN);
@@ -105,8 +106,9 @@ public class NotificationBot extends TelegramLongPollingBot {
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                             requestDto.getEmail(), requestDto.getPassword()
                     ));
-                    Customer customer = customerRepository.findByEmail(requestDto.getEmail()).orElseThrow(
-                            () -> new EntityNotFoundException("Can't find customer")
+                    Customer customer = customerRepository.findByEmail(
+                            requestDto.getEmail()).orElseThrow(
+                                () -> new EntityNotFoundException("Can't find customer")
                     );
                     customer.setChatId(chatId);
                     customerRepository.save(customer);
@@ -118,6 +120,9 @@ public class NotificationBot extends TelegramLongPollingBot {
                     authStates.remove(chatId);
                     requestDto.setPassword("");
                 }
+                break;
+            default:
+                authStates.put(chatId, AuthState.STARTED);
                 break;
         }
     }
@@ -131,7 +136,7 @@ public class NotificationBot extends TelegramLongPollingBot {
 
     public void sendTextMessage(long chatId, String text) {
         SendMessage message = new SendMessage();
-               message.setChatId(chatId);
+        message.setChatId(chatId);
         message.setText(text);
 
         try {
@@ -167,12 +172,12 @@ public class NotificationBot extends TelegramLongPollingBot {
     private void deletePreviousMessage(Long chatId, Update update) {
         int messageId = update.getMessage().getMessageId();
         DeleteMessage deleteMessage = new DeleteMessage();
-         deleteMessage.setChatId(chatId);
-         deleteMessage.setMessageId(messageId);
+        deleteMessage.setChatId(chatId);
+        deleteMessage.setMessageId(messageId);
         try {
             execute(deleteMessage);
         } catch (TelegramApiException e) {
-            throw new TelegramMessageException("Can't delete user message", e);
+            throw new TelegramMessageException(DELETE_MESSAGE, e);
         }
     }
 

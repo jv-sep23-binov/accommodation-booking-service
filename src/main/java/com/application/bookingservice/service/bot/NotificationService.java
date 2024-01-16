@@ -25,7 +25,7 @@ public interface NotificationService {
 
     Boolean sendToUserPayment(Long chatId, Payment payment);
 
-    Boolean sendToUserNewAccommodation(Long chatId, AccommodationResponseDto responseDto);
+    Boolean sendToUserNewAccommodation(AccommodationResponseDto responseDto);
 
     Boolean sendToAllUsers(String text);
 }
