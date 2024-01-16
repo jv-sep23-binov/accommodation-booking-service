@@ -156,11 +156,11 @@ public class TelegramNotificationService implements NotificationService {
     @Override
     public Boolean sendToUserBookingSuccessful(Long chatId, BookingResponseDto responseDto) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(" Dear user your booking was successful \n you check in data: ")
+        stringBuilder.append("Dear user your booking was successful \n you check in data: ")
                         .append(responseDto.getCheckIn())
-                        .append(" \nyour check out date :")
+                        .append("\nyour check out date :")
                         .append(responseDto.getCheckOut())
-                .append("\n Thanks for picking BINOVO_booking!");
+                .append("\nThanks for picking BINOVO_booking!");
         notificationBot.sendTextMessage(chatId, stringBuilder.toString());
         return true;
     }
@@ -168,25 +168,25 @@ public class TelegramNotificationService implements NotificationService {
     @Override
     public Boolean sendToUserPayment(Long chatId, Payment payment) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("  Dear user your payment was ")
+        stringBuilder.append(" Dear user your payment was ")
                 .append(payment.getStatus())
-                .append("\n total :")
+                .append("\ntotal :")
                 .append(payment.getTotal())
-                .append("\n Thanks for picking BINOVO_booking!");
+                .append("\nThanks for picking BINOVO_booking!");
         notificationBot.sendTextMessage(chatId, stringBuilder.toString());
         return true;
     }
 
     @Override
-    public Boolean sendToUserNewAccommodation(Long chatId, AccommodationResponseDto responseDto) {
+    public Boolean sendToUserNewAccommodation(AccommodationResponseDto responseDto) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(" Dear user we added new accommodation \n address: ")
+        stringBuilder.append("Dear users we added new accommodation \naddress: ")
                 .append(responseDto.getAddress())
-                .append("\n type: ")
+                .append("\ntype: ")
                 .append(responseDto.getType())
-                .append("\n best price :")
+                .append("\nbest price :")
                 .append(responseDto.getPrice());
-        notificationBot.sendTextMessage(chatId, stringBuilder.toString());
+        notificationBot.sendTextMessageToAll(stringBuilder.toString());
         return true;
     }
 
