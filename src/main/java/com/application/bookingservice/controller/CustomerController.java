@@ -31,7 +31,8 @@ public class CustomerController {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{id}/role")
     @Operation(summary = "Update roles.",
-            description = "Enables customers to update their roles, providing role-based access.")
+            description =
+                    "Enables managers to update customers roles, providing role-based access.")
     public CustomerResponseDtoWithRoles updateRole(@PathVariable Long id,
                                                    @RequestBody @Valid CustomerUpdateRoleRequestDto
                                      updateCustomerRoleRequestDto) {
