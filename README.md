@@ -78,10 +78,10 @@ But wait, there's more! Stay in the loop with our Telegram Notifications Service
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>The project has such controllers:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 📝🔑**Authentication Controller** - endpoints with open access for new users who want to register and for registered users who want to log in.
 
-| HTTP method |       Endpoint        |          Description           |
-|:-----------:|:---------------------:|:------------------------------:|
-|    POST     | `/auth/registration ` |    Register a new customer     |
-|    POST     |    `/auth/login `     | Login as a registered customer |
+| HTTP method |       Endpoint        |           Description           |
+|:-----------:|:---------------------:|:-------------------------------:|
+|    POST     | `/auth/registration ` |    Register a new customer.     |
+|    POST     |    `/auth/login `     | Login as a registered customer. |
 
 🧑‍💼 **Customer Controller** - endpoints for managing customers.
 
@@ -145,9 +145,9 @@ Stay in control and informed with our Telegram Notifications Service! 🌟
 ------
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>You can test and use this project:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
-1. Install [Docker](https://www.docker.com/products/docker-desktop/)
-2. Clone [THIS](https://github.com/jv-sep23-binov/accommodation-booking-service) repository
-3. Configure a "**.env**" file with necessary environment variables
-4. Run the command `mvn clean package`
-5. Use `docker-compose up --build` to build and launch Docker containers
-6. Access the locally running application at http://localhost:8088
+1. 🚀 Install [Docker](https://www.docker.com/products/docker-desktop/)
+2. 📦 Clone [THIS](https://github.com/jv-sep23-binov/accommodation-booking-service) repository
+3. 🔧 Configure a "**.env**" file with necessary environment variables
+4. 🛠️ Run the command `mvn clean package`
+5. 🚢 Use `docker-compose up --build` to build and launch Docker containers
+6. 🌐 Access the locally running application at http://localhost:8088
