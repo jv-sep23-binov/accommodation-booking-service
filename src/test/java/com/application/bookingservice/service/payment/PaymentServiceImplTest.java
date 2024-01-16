@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -69,7 +70,8 @@ class PaymentServiceImplTest {
     }
 
     @Test
-    public void testGetPaymentsByCustomerId() {
+    @DisplayName("Get payments by customer id")
+    public void getPaymentsByCustomerId_ValidData_ReturnsDtoList() {
         Long customerId = 1L;
 
         List<Payment> mockPayments = Arrays.asList(payment1, payment2);
