@@ -78,7 +78,6 @@ public class CustomerControllerTest {
     @Sql(scripts = {"classpath:db/customer/delete-customers-from-customers-table.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void cleanUpEach() {
-
     }
 
     @Test
@@ -96,7 +95,6 @@ public class CustomerControllerTest {
                 "Expected should be: " + expected
                 + " but was " + actual
         );
-
     }
 
     @Test

@@ -97,10 +97,10 @@ public class CustomerServiceTest {
         CustomerResponseDto result = customerService.getById(EXISTING_CUSTOMER_ID);
 
         assertNotNull(result);
-        verify(customerRepository, times(1)).findById(EXISTING_CUSTOMER_ID);
-        verify(customerMapper, times(1)).toResponseDto(alice);
         assertEquals(alice.getFirstName(), result.getFirstName());
         assertEquals(alice.getEmail(), result.getEmail());
+        verify(customerRepository, times(1)).findById(EXISTING_CUSTOMER_ID);
+        verify(customerMapper, times(1)).toResponseDto(alice);
     }
 
     @Test
@@ -116,9 +116,9 @@ public class CustomerServiceTest {
         assertEquals(CUSTOMER_NOT_FOUND_MESSAGE
                 + NON_EXISTENT_CUSTOMER_ID, exception.getMessage());
 
+        assertTrue(exception.getMessage().contains(String.valueOf(NON_EXISTENT_CUSTOMER_ID)));
         verify(customerRepository, times(1)).findById(NON_EXISTENT_CUSTOMER_ID);
         verify(customerMapper, never()).toResponseDto(any());
-        assertTrue(exception.getMessage().contains(String.valueOf(NON_EXISTENT_CUSTOMER_ID)));
     }
 
     @Test
