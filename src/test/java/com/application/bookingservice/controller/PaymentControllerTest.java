@@ -8,13 +8,11 @@ import com.application.bookingservice.dto.payment.PaymentResponseDto;
 import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.model.Payment;
 import com.application.bookingservice.model.Role;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

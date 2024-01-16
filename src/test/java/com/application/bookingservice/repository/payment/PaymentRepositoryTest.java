@@ -21,7 +21,7 @@ import org.springframework.test.context.jdbc.Sql;
 class PaymentRepositoryTest {
     private static Payment payment;
     @Autowired
-    PaymentRepository paymentRepository;
+    private PaymentRepository paymentRepository;
 
     @BeforeAll
     static void beforeAll() {

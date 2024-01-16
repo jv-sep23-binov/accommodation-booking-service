@@ -38,21 +38,19 @@ class PaymentServiceImplTest {
 
     @BeforeAll
     static void beforeAll() {
-        Booking booking1 = new Booking();
-        booking1.setId(456L);
-
-        Booking booking2 = new Booking();
-        booking1.setId(789L);
-
         payment1 = new Payment();
         payment1.setId(1L);
         payment1.setStatus(Status.SUCCEED);
+        Booking booking1 = new Booking();
+        booking1.setId(456L);
         payment1.setBooking(booking1);
         payment1.setTotal(new BigDecimal("100.00"));
 
         payment2 = new Payment();
         payment2.setId(2L);
         payment2.setStatus(Status.FAILED);
+        Booking booking2 = new Booking();
+        booking1.setId(789L);
         payment2.setBooking(booking2);
         payment2.setTotal(new BigDecimal("50.00"));
 
