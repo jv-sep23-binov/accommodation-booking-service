@@ -47,10 +47,7 @@ public class AccommodationServiceImpl implements AccommodationService {
 
     @Override
     public List<AccommodationResponseDto> getAll(Pageable pageable) {
-        return accommodationRepository.getAll(pageable)
-                .stream()
-                .map(accommodationMapper::toDto)
-                .toList();
+        return accommodationMapper.toDtos(accommodationRepository.getAll(pageable));
     }
 
     @Override

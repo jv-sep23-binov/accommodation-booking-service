@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
         description = "Endpoints for managing accommodations.")
 public class AccommodationController {
     private final AccommodationService accommodationService;
-    private final AddressService addressService;
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping
@@ -87,5 +86,4 @@ public class AccommodationController {
     public void deleteById(@PathVariable Long id) {
         accommodationService.deleteById(id);
     }
-
 }
