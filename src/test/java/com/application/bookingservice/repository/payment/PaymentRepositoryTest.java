@@ -18,6 +18,18 @@ import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(scripts = {
+        "classpath:db/address/add-addresses.sql",
+        "classpath:db/accommodation/add-accommodations.sql",
+        "classpath:db/booking/add-bookings.sql",
+        "classpath:db/payment/add-payments.sql"
+}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = {
+        "classpath:db/payment/delete-payments.sql",
+        "classpath:db/booking/delete-bookings.sql",
+        "classpath:db/accommodation/delete-accommodations.sql",
+        "classpath:db/address/delete-addresses.sql"
+}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class PaymentRepositoryTest {
     private static Payment payment;
     @Autowired
@@ -39,18 +51,6 @@ class PaymentRepositoryTest {
 
     @Test
     @DisplayName("Find payment by session id")
-    @Sql(scripts = {
-            "classpath:db/address/add-addresses.sql",
-            "classpath:db/accommodation/add-accommodations.sql",
-            "classpath:db/booking/add-bookings.sql",
-            "classpath:db/payment/add-payments.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:db/payment/delete-payments.sql",
-            "classpath:db/booking/delete-bookings.sql",
-            "classpath:db/accommodation/delete-accommodations.sql",
-            "classpath:db/address/delete-addresses.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findBySessionId_ValidData_ReturnsCorrectPayment() {
         Optional<Payment> expected = Optional.of(payment);
         Optional<Payment> actual = paymentRepository.findBySessionId(payment.getSessionId());
@@ -63,18 +63,6 @@ class PaymentRepositoryTest {
 
     @Test
     @DisplayName("Find payments by customer id")
-    @Sql(scripts = {
-            "classpath:db/address/add-addresses.sql",
-            "classpath:db/accommodation/add-accommodations.sql",
-            "classpath:db/booking/add-bookings.sql",
-            "classpath:db/payment/add-payments.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:db/payment/delete-payments.sql",
-            "classpath:db/booking/delete-bookings.sql",
-            "classpath:db/accommodation/delete-accommodations.sql",
-            "classpath:db/address/delete-addresses.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByCustomerId_ValidData_ReturnsCorrectPayments() {
         List<Payment> expected = List.of(payment);
         List<Payment> actual = paymentRepository.findAllByCustomerId(2L);

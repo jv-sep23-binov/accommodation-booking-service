@@ -70,9 +70,9 @@ class PaymentControllerTest {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    @WithMockUser(username = "alice@example.com", roles = {"CUSTOMER"})
+    @WithMockUser(username = "customer", roles = {"CUSTOMER"})
     @Test
-    @DisplayName("Get user's payments")
+    @DisplayName("Get customer's payments")
     @Sql(scripts = {
             "classpath:db/address/add-addresses.sql",
             "classpath:db/accommodation/add-accommodations.sql",
