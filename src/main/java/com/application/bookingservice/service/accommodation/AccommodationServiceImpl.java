@@ -31,25 +31,22 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Override
     @Transactional
     public AccommodationResponseDto save(AccommodationRequestDto accommodationRequestDto) {
-        Address address = accommodationRequestDto.getAddress();
-        Accommodation accommodation = new Accommodation()
-                .setType(accommodationRequestDto.getType())
-                .setAddress(addressRepository.save(address))
-                .setSize(accommodationRequestDto.getSize())
-                .setAmenities(accommodationRequestDto.getAmenities())
-                .setPrice(accommodationRequestDto.getPrice())
-                .setAvailableUnits(accommodationRequestDto.getAvailableUnits());
-        AccommodationResponseDto savedAccommodationdto = accommodationMapper
-                .toDto(accommodationRepository.save(accommodation));
-        notificationService.sendToUserNewAccommodation(savedAccommodationdto);
-        notificationService.accommodationCreatedMessage(savedAccommodationdto);
-        return savedAccommodationdto;
+        Address savedAddress = addressRepository.save(accommodationRequestDto.getAddress());
+
+        Accommodation accommodation = accommodationMapper.toEntity(accommodationRequestDto);
+        accommodation.setAddress(savedAddress);
+
+        AccommodationResponseDto savedAccommodationDto
+                = accommodationMapper.toDto(accommodationRepository.save(accommodation));
+
+        notificationService.sendToUserNewAccommodation(savedAccommodationDto);
+        notificationService.accommodationCreatedMessage(savedAccommodationDto);
+        return savedAccommodationDto;
     }
 
     @Override
     public List<AccommodationResponseDto> getAll(Pageable pageable) {
-        return accommodationRepository.getAll(pageable)
-                .stream()
+        return accommodationRepository.getAll(pageable).stream()
                 .map(accommodationMapper::toDto)
                 .toList();
     }

@@ -18,7 +18,7 @@ public class BookingSpecificationBuilder implements SpecificationBuilder<Booking
         Specification<Booking> spec = Specification.where(null);
 
         if (searchParameters.customerIds() != null && searchParameters.customerIds().length > 0) {
-            spec.and(specificationProviderManager.getSpecificationProvider("customer_id")
+            spec = spec.and(specificationProviderManager.getSpecificationProvider("customer_id")
                     .getSpecification(searchParameters.customerIds()));
         }
 
