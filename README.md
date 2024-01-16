@@ -7,7 +7,7 @@ But wait, there's more! Stay in the loop with our Telegram Notifications Service
 
 P.S. You can easily read the documentation and test our project [HERE](http://ec2-54-174-166-23.compute-1.amazonaws.com/api/swagger-ui/index.html).😉
 
-![img_1.png](img_1.png)
+![img_1.png](pictures/img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>We used such technologies and tools:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 <details>
@@ -91,13 +91,13 @@ P.S. You can easily read the documentation and test our project [HERE](http://ec
 *A set of APIs provided by Telegram Messenger for building chatbots, integrations, and other applications on the Telegram platform.*
 </details>
 
-![img_1.png](img_1.png)
+![img_1.png](pictures/img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>Project structure:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 
-<p align="center"><img src="img.png"></p>
+<p align="center"><img src="pictures/img.png"></p>
 
-![img_1.png](img_1.png)
+![img_1.png](pictures/img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>The project has such controllers:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 📝🔑**Authentication Controller** - endpoints with open access for new users who want to register and for registered users who want to log in.
@@ -147,9 +147,9 @@ P.S. You can easily read the documentation and test our project [HERE](http://ec
 |     GET     | `/payments/success` |    -    |  Redirection after successfully processing of payment.  |
 |     GET     | `/payments/cancel`  |    -    | Redirection after unsuccessfully processing of payment. |
 
-![img_4.png](img_4.png)
+![img_4.png](pictures/img_4.png)
 
-![img_1.png](img_1.png)
+![img_1.png](pictures/img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>Notifications Service (Telegram):<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 Receive instant updates on:
@@ -168,9 +168,9 @@ Key Features:
 
 Stay in control and informed with our Telegram Notifications Service! 🌟
 
-<p align="center"><img src="img_3.png"> <img src="img_2.png"></p>
+<p align="center"><img src="pictures/img_3.png"> <img src="pictures/img_2.png"></p>
 
-![img_1.png](img_1.png)
+![img_1.png](pictures/img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/> Challenges and Solutions:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 
@@ -190,7 +190,7 @@ Stay in control and informed with our Telegram Notifications Service! 🌟
 
 
 
-![img_1.png](img_1.png)
+![img_1.png](pictures/img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/> Possible Improvements:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 
@@ -198,7 +198,7 @@ Stay in control and informed with our Telegram Notifications Service! 🌟
 
 
 - 🔍 **Advanced Search Filters:** Enhance the search functionality with advanced filters such as price range, specific amenities, and accommodation types. This will provide users with more precise search results based on their preferences.
-![img_1.png](img_1.png)
+![img_1.png](pictures/img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>You can test and use this project:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 1. 🚀 Install [Docker](https://www.docker.com/products/docker-desktop/)
@@ -209,7 +209,7 @@ Stay in control and informed with our Telegram Notifications Service! 🌟
 6. 🌐 Access the locally running application at http://localhost:8088
 ### <p align="center">OR </p>
 1. You can easily read the documentation and test our project [HERE](http://ec2-54-174-166-23.compute-1.amazonaws.com/api/swagger-ui/index.html).
-![img_1.png](img_1.png)
+![img_1.png](pictures/img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>Authors:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 - 👨‍💻[Valerii Fedorovych](https://github.com/fedorovychh)

@@ -6,6 +6,7 @@ import com.application.bookingservice.dto.accommodation.AccommodationUpdateReque
 import com.application.bookingservice.dto.address.AddressRequestDto;
 import com.application.bookingservice.service.accommodation.AccommodationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -35,7 +36,8 @@ public class AccommodationController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     @Operation(summary = "Save new accommodation.",
-            description = "Permits the addition of new accommodations.")
+            description = "Permits the addition of new accommodations.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     public AccommodationResponseDto save(
             @RequestBody @Valid AccommodationRequestDto accommodationRequestDto) {
         return accommodationService.save(accommodationRequestDto);
@@ -44,7 +46,8 @@ public class AccommodationController {
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @GetMapping
     @Operation(summary = "Get all accommodations.",
-            description = "Provides a list of available accommodations.")
+            description = "Provides a list of available accommodations.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     public List<AccommodationResponseDto> getAll(Pageable pageable) {
         return accommodationService.getAll(pageable);
     }
@@ -52,7 +55,8 @@ public class AccommodationController {
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get accommodation by id.",
-            description = "Retrieves detailed information about a specific accommodation.")
+            description = "Retrieves detailed information about a specific accommodation.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     public AccommodationResponseDto findById(@PathVariable Long id) {
         return accommodationService.findById(id);
     }
@@ -60,7 +64,8 @@ public class AccommodationController {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{id}")
     @Operation(summary = "Update accommodation.",
-            description = "Allows updates to accommodation details.")
+            description = "Allows updates to accommodation details.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     public AccommodationResponseDto updateDetailsById(@PathVariable Long id,
                                                       @RequestBody @Valid
                                                AccommodationUpdateRequestDto requestDto) {
@@ -70,7 +75,8 @@ public class AccommodationController {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{id}/address")
     @Operation(summary = "Update accommodation address.",
-            description = "Allows updates to accommodation address.")
+            description = "Allows updates to accommodation address.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     public AccommodationResponseDto updateAddressById(@PathVariable Long id,
                                                       @RequestBody @Valid
                                                AddressRequestDto requestDto) {
@@ -80,7 +86,8 @@ public class AccommodationController {
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete accommodation.",
-            description = "Enables the removal of accommodations.")
+            description = "Enables the removal of accommodations.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
         accommodationService.deleteById(id);

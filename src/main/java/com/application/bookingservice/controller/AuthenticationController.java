@@ -6,6 +6,7 @@ import com.application.bookingservice.dto.customer.CustomerRegistrationRequestDt
 import com.application.bookingservice.dto.customer.CustomerRegistrationResponseDto;
 import com.application.bookingservice.security.AuthenticationService;
 import com.application.bookingservice.service.customer.CustomerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication management.",
+        description = "Endpoints for managing authentication.")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final CustomerService customerService;

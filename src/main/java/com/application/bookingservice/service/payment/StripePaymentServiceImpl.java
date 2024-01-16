@@ -2,12 +2,7 @@ package com.application.bookingservice.service.payment;
 
 import com.application.bookingservice.dto.payment.PaymentCreateResponseDto;
 import com.application.bookingservice.dto.payment.PaymentRequestDto;
-import com.application.bookingservice.exception.EntityNotFoundException;
 import com.application.bookingservice.exception.PaymentFailedException;
-import com.application.bookingservice.model.Booking;
-import com.application.bookingservice.model.Payment;
-import com.application.bookingservice.repository.booking.BookingRepository;
-import com.application.bookingservice.repository.payment.PaymentRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Price;
@@ -23,16 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class StripePaymentServiceImpl implements StripePaymentService {
-    private static final String BOOKING_NOT_FOUND_MESSAGE =
-            "Can't find booking with id: ";
     private static final String CHECKOUT_FAILURE_MESSAGE = "Checkout failure! ";
-    private static final String REQUESTED_PARAM = "?session-id={SESSION_ID}";
     private static final String DEFAULT_PRODUCT_TYPE = "Booking";
     private static final String DEFAULT_CURRENCY_USD = "usd";
     private static final Long DEFAULT_PRODUCTS_QUANTITY = 1L;
     private static final Long PRICE_VALUE_IN_CENTS = 100L;
-    private final PaymentRepository paymentRepository;
-    private final BookingRepository bookingRepository;
+    private final PaymentService paymentService;
     @Value("${stripe.success.url}")
     private String successUrl;
     @Value("${stripe.cancel.url}")
@@ -45,10 +36,11 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         Stripe.apiKey = secretKey;
     }
 
+    @Override
     public PaymentCreateResponseDto createPaymentSession(PaymentRequestDto requestDto) {
         SessionCreateParams params = SessionCreateParams.builder()
-                .setSuccessUrl(String.format(successUrl, REQUESTED_PARAM))
-                .setCancelUrl(String.format(cancelUrl, REQUESTED_PARAM))
+                .setSuccessUrl(successUrl)
+                .setCancelUrl(cancelUrl)
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setPrice(getPrice(requestDto.getTotal()))
                         .setQuantity(DEFAULT_PRODUCTS_QUANTITY)
@@ -62,7 +54,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         } catch (StripeException e) {
             throw new PaymentFailedException(CHECKOUT_FAILURE_MESSAGE + e);
         }
-        savePayment(requestDto, session);
+        paymentService.save(requestDto, session);
         return new PaymentCreateResponseDto(session.getUrl());
     }
 
@@ -80,20 +72,5 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void savePayment(PaymentRequestDto requestDto, Session session) {
-        Booking booking = bookingRepository.findById(requestDto.getBookingId())
-                .orElseThrow(
-                        () -> new EntityNotFoundException(BOOKING_NOT_FOUND_MESSAGE
-                                + requestDto.getBookingId())
-                );
-        Payment payment = new Payment();
-        payment.setStatus(Payment.Status.PROCESSING);
-        payment.setBooking(booking);
-        payment.setSessionId(session.getId());
-        payment.setSessionUrl(session.getUrl());
-        payment.setTotal(requestDto.getTotal());
-        paymentRepository.save(payment);
     }
 }
