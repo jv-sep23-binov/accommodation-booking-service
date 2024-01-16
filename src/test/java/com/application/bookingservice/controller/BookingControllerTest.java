@@ -1,6 +1,8 @@
 package com.application.bookingservice.controller;
 
 import static com.application.bookingservice.model.Booking.Status.PENDING;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -13,7 +15,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -90,19 +91,18 @@ public class BookingControllerTest {
             verify get my booking work
             """)
     public void getAll_ValidData_Success() throws Exception {
-        List<BookingResponseDto> expected = new ArrayList<>(bookingResponseDtos);
-
-        //When
         MvcResult result = mockMvc.perform(
                 get(MY_BOOKING_API)
         ).andReturn();
 
-        //then
+        List<BookingResponseDto> expected = new ArrayList<>(bookingResponseDtos);
+
         List<BookingResponseDto> actual = objectMapper.readValue(
                 result.getResponse().getContentAsString(),
                 new TypeReference<List<BookingResponseDto>>() {}
         );
-        Assertions.assertNotNull(actual);
-        Assertions.assertEquals(expected, actual);
+
+        assertNotNull(actual);
+        assertEquals(expected, actual);
     }
 }
