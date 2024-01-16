@@ -7,6 +7,7 @@ import com.application.bookingservice.model.Customer;
 import com.application.bookingservice.service.payment.PaymentService;
 import com.application.bookingservice.service.payment.StripePaymentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/payments")
 @RequiredArgsConstructor
+@Tag(name = "Payment management.",
+        description = "Endpoints for managing payments.")
 public class PaymentController {
     private final StripePaymentService stripePaymentService;
     private final PaymentService paymentService;
