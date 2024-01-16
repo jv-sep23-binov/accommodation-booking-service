@@ -5,7 +5,8 @@ Picture this: Effortless booking, real-time property availability checks, and a 
 
 But wait, there's more! Stay in the loop with our Telegram Notifications Service. Get instant updates on bookings, cancellations, and successful payments. Say goodbye to the old and welcome the future of hassle-free, modern housing rentals! 🚀🏠
 
--------
+![img_1.png](img_1.png)
+
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>We used such technologies and tools:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 <details>
   <summary><b>Spring Boot</b></summary>
@@ -73,7 +74,13 @@ But wait, there's more! Stay in the loop with our Telegram Notifications Service
 *A set of APIs provided by Telegram Messenger for building chatbots, integrations, and other applications on the Telegram platform.*
 </details>
 
-------
+![img_1.png](img_1.png)
+
+### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>Project structure:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
+
+<p align="center"><img src="img.png"></p>
+
+![img_1.png](img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>The project has such controllers:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 📝🔑**Authentication Controller** - endpoints with open access for new users who want to register and for registered users who want to log in.
@@ -123,12 +130,12 @@ But wait, there's more! Stay in the loop with our Telegram Notifications Service
 |     GET     | `/payments/success` |    -    |  Redirection after successfully processing of payment.  |
 |     GET     | `/payments/cancel`  |    -    | Redirection after unsuccessfully processing of payment. |
 
-------
+![img_1.png](img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>Notifications Service (Telegram):<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 Receive instant updates on:
 
-- 📅 New bookings (created/canceled)
+- 📅 New bookings 
 - 🏡 Newly created/released accommodations
 - 💳 Successful payments
 
@@ -142,7 +149,17 @@ Key Features:
 
 Stay in control and informed with our Telegram Notifications Service! 🌟
 
--------
+<p align="center"><img src="img_3.png"> <img src="img_2.png"></p>
+
+![img_1.png](img_1.png)
+
+### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/> Possible Improvements:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
+
+- 🌟 **User Reviews and Ratings:** Implement a feature for users to leave reviews and ratings for accommodations. This can enhance the decision-making process for other users and provide valuable feedback for property owners.
+
+
+- 🔍 **Advanced Search Filters:** Enhance the search functionality with advanced filters such as price range, specific amenities, and accommodation types. This will provide users with more precise search results based on their preferences.
+![img_1.png](img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>You can test and use this project:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 1. 🚀 Install [Docker](https://www.docker.com/products/docker-desktop/)
@@ -151,3 +168,4 @@ Stay in control and informed with our Telegram Notifications Service! 🌟
 4. 🛠️ Run the command `mvn clean package`
 5. 🚢 Use `docker-compose up --build` to build and launch Docker containers
 6. 🌐 Access the locally running application at http://localhost:8088
+
