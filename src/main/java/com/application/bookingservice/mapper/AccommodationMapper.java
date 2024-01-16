@@ -11,5 +11,4 @@ public interface AccommodationMapper {
     AccommodationResponseDto toDto(Accommodation accommodation);
 
     Accommodation toEntity(AccommodationRequestDto requestDto);
-
 }

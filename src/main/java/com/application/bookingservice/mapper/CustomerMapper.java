@@ -13,12 +13,11 @@ import org.mapstruct.Mapper;
 public interface CustomerMapper {
     CustomerRegistrationResponseDto toDto(Customer customer);
 
-    Customer toModel(CustomerRegistrationRequestDto requestDto);
+    Customer toEntity(CustomerRegistrationRequestDto requestDto);
 
     CustomerResponseDto toResponseDto(Customer customer);
 
     CustomerUpdateResponseDto toUpdateResponseDto(Customer customer);
 
     CustomerResponseDtoWithRoles toDtoWithRoles(Customer customer);
-
 }

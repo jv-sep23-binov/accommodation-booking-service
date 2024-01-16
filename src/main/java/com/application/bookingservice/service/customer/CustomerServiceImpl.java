@@ -38,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RegistrationException(CUSTOMER_ALREADY_REGISTERED_MESSAGE);
         }
 
-        Customer savedCustomer = customerMapper.toModel(requestDto);
+        Customer savedCustomer = customerMapper.toEntity(requestDto);
         Role customerRole = roleRepository.findByRole(Role.RoleName.ROLE_CUSTOMER);
         savedCustomer.setRoles(Set.of(customerRole));
         savedCustomer.setPassword(passwordEncoder.encode(requestDto.getPassword()));

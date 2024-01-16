@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = MapperConfig.class)
 public interface AddressMapper {
-    Address toModel(AddressRequestDto requestDto);
+    Address toEntity(AddressRequestDto requestDto);
 
     AddressResponseDto toDto(Address address);
 }
