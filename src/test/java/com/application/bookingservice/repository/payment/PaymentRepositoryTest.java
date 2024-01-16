@@ -20,13 +20,12 @@ import org.springframework.test.context.jdbc.Sql;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PaymentRepositoryTest {
     private static Payment payment;
-    private static Booking booking;
     @Autowired
     PaymentRepository paymentRepository;
 
     @BeforeAll
     static void beforeAll() {
-        booking = new Booking();
+        Booking booking = new Booking();
         booking.setId(1L);
 
         payment = new Payment();
