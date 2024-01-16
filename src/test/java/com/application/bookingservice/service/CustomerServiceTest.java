@@ -162,7 +162,7 @@ public class CustomerServiceTest {
         when(roleRepository.findByRole(Role.RoleName.ROLE_CUSTOMER)).thenReturn(customerRole);
 
         when(customerRepository.findByEmail(NEW_EMAIL)).thenReturn(Optional.empty());
-        when(customerMapper.toModel(requestDto)).thenReturn(new Customer());
+        when(customerMapper.toEntity(requestDto)).thenReturn(new Customer());
         when(passwordEncoder.encode(requestDto.getPassword())).thenReturn("hashedPassword");
         when(customerRepository.save(any())).thenReturn(new Customer());
 
@@ -171,7 +171,7 @@ public class CustomerServiceTest {
         assertNotNull(result);
         verify(customerRepository, times(1)).findByEmail(NEW_EMAIL);
         verify(roleRepository, times(1)).findByRole(Role.RoleName.ROLE_CUSTOMER);
-        verify(customerMapper, times(1)).toModel(requestDto);
+        verify(customerMapper, times(1)).toEntity(requestDto);
         verify(passwordEncoder, times(1)).encode(requestDto.getPassword());
         verify(customerRepository, times(1)).save(any());
     }
@@ -195,7 +195,7 @@ public class CustomerServiceTest {
 
         verify(customerRepository, times(1)).findByEmail(EXISTING_EMAIL);
         verify(roleRepository, never()).findByRole(any());
-        verify(customerMapper, never()).toModel(any());
+        verify(customerMapper, never()).toEntity(any());
         verify(passwordEncoder, never()).encode(any());
         verify(customerRepository, never()).save(any());
     }

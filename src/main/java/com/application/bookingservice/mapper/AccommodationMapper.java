@@ -8,6 +8,7 @@ import java.util.List;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
+import org.springframework.data.domain.Page;
 
 @Mapper(config = MapperConfig.class, uses = AddressMapper.class)
 public interface AccommodationMapper {
@@ -17,5 +18,5 @@ public interface AccommodationMapper {
     Accommodation toEntity(AccommodationRequestDto requestDto);
 
     @IterableMapping(qualifiedByName = "toDto")
-    List<AccommodationResponseDto> toDtos(List<Accommodation> accommodations);
+    List<AccommodationResponseDto> toDtos(Page<Accommodation> accommodations);
 }
