@@ -102,7 +102,7 @@ public class BookingController {
     @GetMapping("/search")
     @Operation(summary = "Get bookings by customer and status.",
             description = "Retrieves bookings based on customer ID and their status.")
-    public List<BookingResponseDto> getByCustomerAndStatus(
+    public List<BookingResponseDto> search(
             BookingSearchParametersDto searchParameters
     ) {
         return bookingService.search(searchParameters);
