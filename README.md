@@ -5,6 +5,8 @@ Picture this: Effortless booking, real-time property availability checks, and a 
 
 But wait, there's more! Stay in the loop with our Telegram Notifications Service. Get instant updates on bookings, cancellations, and successful payments. Say goodbye to the old and welcome the future of hassle-free, modern housing rentals! 🚀🏠
 
+P.S. You can easily read the documentation and test our project [HERE](http://ec2-54-174-166-23.compute-1.amazonaws.com/api/swagger-ui/index.html).😉
+
 ![img_1.png](img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>We used such technologies and tools:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
@@ -29,9 +31,19 @@ But wait, there's more! Stay in the loop with our Telegram Notifications Service
 *Framework for securing Spring applications, adding authentication and authorization to protect resources.*
 </details>
 <details>
+  <summary><b>AWS (Amazon Web Services)</b></summary>
+
+*A comprehensive and widely-used cloud computing platform offering a variety of services such as computing power, storage, databases, machine learning, and more.*
+</details>
+<details>
   <summary><b>Docker</b></summary>
 
 *Platform for automating deployment and managing containerized applications, simplifying work with isolated environments.*
+</details>
+<details>
+  <summary><b>JUnit</b></summary>
+
+*A popular testing framework for Java that provides annotations to identify test methods, assertions for testing expected results, and test runners for executing test cases.*
 </details>
 <details>
   <summary><b>Liquibase</b></summary>
@@ -52,6 +64,11 @@ But wait, there's more! Stay in the loop with our Telegram Notifications Service
   <summary><b>Maven</b></summary>
 
 *Tool for managing project dependencies, compilation, building, and publishing of Java programs.*
+</details>
+<details>
+  <summary><b>Mockito</b></summary>
+
+*A mocking framework for Java that allows the creation of mock objects in automated tests, facilitating the isolation of code units for more effective testing.*
 </details>
 <details>
   <summary><b>PostgreSQL </b></summary>
@@ -130,6 +147,8 @@ But wait, there's more! Stay in the loop with our Telegram Notifications Service
 |     GET     | `/payments/success` |    -    |  Redirection after successfully processing of payment.  |
 |     GET     | `/payments/cancel`  |    -    | Redirection after unsuccessfully processing of payment. |
 
+![img_4.png](img_4.png)
+
 ![img_1.png](img_1.png)
 
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>Notifications Service (Telegram):<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
@@ -153,6 +172,26 @@ Stay in control and informed with our Telegram Notifications Service! 🌟
 
 ![img_1.png](img_1.png)
 
+### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/> Challenges and Solutions:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
+
+1. ❌**Payment Session Creation**
+
+   _Challenge:_ We encountered difficulties in creating payment sessions, but through diligent research and exploration of the Stripe documentation, we successfully resolved these issues. Understanding the intricacies of payment session creation proved crucial to ensuring a seamless payment process.
+
+2.  🚨**Console Error Overload**
+
+   _Challenge:_ Our console was flooded with errors, mainly stemming from the fact that a single token was used by everyone. This issue was hampering the user experience and platform functionality. 
+
+   _Solution:_ To overcome this challenge, we implemented a solution by creating a new bot for each user. This not only addressed the error overload but also improved the security and individualized the interactions for each user, ensuring a more stable and reliable system.
+
+
+
+
+
+
+
+![img_1.png](img_1.png)
+
 ### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/> Possible Improvements:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
 
 - 🌟 **User Reviews and Ratings:** Implement a feature for users to leave reviews and ratings for accommodations. This can enhance the decision-making process for other users and provide valuable feedback for property owners.
@@ -168,4 +207,15 @@ Stay in control and informed with our Telegram Notifications Service! 🌟
 4. 🛠️ Run the command `mvn clean package`
 5. 🚢 Use `docker-compose up --build` to build and launch Docker containers
 6. 🌐 Access the locally running application at http://localhost:8088
+### <p align="center">OR </p>
+1. You can easily read the documentation and test our project [HERE](http://ec2-54-174-166-23.compute-1.amazonaws.com/api/swagger-ui/index.html).
+![img_1.png](img_1.png)
+
+### <p align="center"><img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/>Authors:<img src="https://media4.giphy.com/media/hJl9v892gjwLEdHoZv/giphy.gif?cid=790b7611l43ui7nrwxl8x9ywd5p44aufwveucp8jd1p8yjj5&ep=v1_stickers_search&rid=giphy.gif&ct=s" width="45"/></p>
+- 👨‍💻[Valerii Fedorovych](https://github.com/fedorovychh)
+- 👨‍💻[Igor Korolevich](https://github.com/DevIgork)
+- 👨‍💻[Bohdan Bilko](https://github.com/BohdanTrue)
+- 👨‍💻[Alexander Liubchenko](https://github.com/Alexander1iubchenko)
+- 👩‍💻[Nataliia Shtykh](https://github.com/nshtykh)
+
 
